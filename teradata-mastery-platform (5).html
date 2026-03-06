@@ -1,0 +1,4150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teradata Mastery — Complete Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN: Industrial terminal meets modern data warehouse
+   Color: Deep navy/slate with electric amber + cyan accents
+   Font: Outfit (display) + Space Mono (code)
+   ============================================================ */
+:root {
+  --bg:       #080c14;
+  --bg2:      #0e1422;
+  --surface:  #121928;
+  --surface2: #1a2438;
+  --surface3: #202e45;
+  --border:   #253047;
+  --border2:  #2d3a52;
+  --amber:    #f59e0b;
+  --amber2:   #fbbf24;
+  --cyan:     #06b6d4;
+  --cyan2:    #22d3ee;
+  --green:    #10b981;
+  --red:      #ef4444;
+  --purple:   #8b5cf6;
+  --text:     #e2e8f0;
+  --text2:    #94a3b8;
+  --text3:    #64748b;
+  --mono:     'Space Mono', monospace;
+  --sans:     'Outfit', sans-serif;
+}
+
+/* ─── LIGHT MODE VARIABLES ─── */
+html.light {
+  --bg:       #f0f4f8;
+  --bg2:      #e8edf3;
+  --surface:  #ffffff;
+  --surface2: #f1f5f9;
+  --surface3: #e2e8f0;
+  --border:   #cbd5e1;
+  --border2:  #b0bec5;
+  --amber:    #d97706;
+  --amber2:   #f59e0b;
+  --cyan:     #0891b2;
+  --cyan2:    #06b6d4;
+  --green:    #059669;
+  --red:      #dc2626;
+  --purple:   #7c3aed;
+  --text:     #0f172a;
+  --text2:    #334155;
+  --text3:    #64748b;
+}
+
+html.light #topbar {
+  background: rgba(240,244,248,0.97);
+}
+
+html.light #query-editor {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+html.light .code-wrap { background: #f8fafc; }
+html.light .code-body pre { color: #334155; }
+html.light .kw  { color: #be185d; }
+html.light .fn  { color: #065f46; }
+html.light .str { color: #92400e; }
+html.light .var { color: #1e40af; }
+html.light .cm  { color: #94a3b8; }
+html.light .num { color: #6d28d9; }
+html.light .td  { color: #b45309; }
+html.light .op  { color: #dc2626; }
+
+html.light .section-hero {
+  background: linear-gradient(135deg, #e8edf3 0%, #f0f4f8 100%);
+}
+
+html.light .welcome-hero,
+html.light .ov-card { background: #ffffff; }
+
+html.light .output-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+
+/* Theme toggle button */
+.theme-toggle {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: var(--surface);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+
+/* ─── TOPBAR ─── */
+#topbar {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  height: 56px;
+  background: rgba(8,12,20,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  display: flex; align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+}
+
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--amber), #d97706);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--bg);
+  letter-spacing: -1px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+.logo-text span { color: var(--amber); }
+
+.topbar-tabs {
+  display: flex; gap: 2px;
+  margin-left: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.topbar-tab {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all 0.15s;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+}
+
+.topbar-tab:hover { color: var(--text); }
+.topbar-tab.active {
+  background: var(--amber);
+  color: var(--bg);
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.progress-pill {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--green);
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ─── LAYOUT ─── */
+#app {
+  display: flex;
+  padding-top: 56px;
+  height: 100vh;
+}
+
+/* ─── SIDEBAR ─── */
+#sidebar {
+  width: 252px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  height: calc(100vh - 56px);
+  position: sticky;
+  top: 56px;
+}
+
+.sidebar-search {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-search input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 10px 7px 30px;
+  font-size: 0.78rem;
+  color: var(--text);
+  font-family: var(--sans);
+  outline: none;
+  transition: border 0.15s;
+}
+
+.sidebar-search input:focus { border-color: var(--amber); }
+.sidebar-search input::placeholder { color: var(--text3); }
+
+.search-wrap { position: relative; }
+.search-icon {
+  position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+  font-size: 0.75rem; color: var(--text3); pointer-events: none;
+}
+
+.sidebar-group { margin-bottom: 2px; }
+
+.sidebar-group-title {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 12px 14px 4px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.12s;
+  color: var(--text2);
+  font-size: 0.81rem;
+  font-weight: 500;
+  border-left: 2px solid transparent;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.nav-link.active {
+  background: rgba(245,158,11,0.08);
+  color: var(--amber);
+  border-left-color: var(--amber);
+  font-weight: 600;
+}
+
+.nav-icon { font-size: 0.95rem; flex-shrink: 0; width: 18px; text-align: center; }
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: var(--mono);
+}
+
+.badge-new { background: rgba(245,158,11,0.2); color: var(--amber); }
+.badge-adv { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge-int { background: rgba(6,182,212,0.15); color: var(--cyan); }
+
+/* ─── MAIN ─── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  height: calc(100vh - 56px);
+}
+
+/* ─── PANEL SYSTEM ─── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ─── SECTION HERO ─── */
+.section-hero {
+  padding: 36px 40px 28px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--surface) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-hero::after {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--amber);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--amber);
+}
+
+.section-hero h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.section-hero p {
+  color: var(--text2);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 640px;
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: var(--mono);
+}
+
+.chip-amber { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+.chip-cyan  { background: rgba(6,182,212,0.12);  color: var(--cyan);  border: 1px solid rgba(6,182,212,0.2); }
+.chip-green { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+.chip-red   { background: rgba(239,68,68,0.12);  color: var(--red);   border: 1px solid rgba(239,68,68,0.2); }
+.chip-purple{ background: rgba(139,92,246,0.12); color: var(--purple);border: 1px solid rgba(139,92,246,0.2); }
+
+/* ─── CONTENT AREA ─── */
+.content-area {
+  padding: 28px 40px;
+  max-width: 1100px;
+}
+
+/* ─── GRID ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  transition: border-color 0.2s;
+  position: relative;
+}
+
+.card:hover { border-color: var(--border2); }
+
+.card-accent-amber { border-left: 3px solid var(--amber); }
+.card-accent-cyan  { border-left: 3px solid var(--cyan); }
+.card-accent-green { border-left: 3px solid var(--green); }
+.card-accent-purple{ border-left: 3px solid var(--purple); }
+.card-accent-red   { border-left: 3px solid var(--red); }
+
+.card h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.card p, .card li {
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.card ul { padding-left: 16px; display: flex; flex-direction: column; gap: 3px; }
+.card ul li::marker { color: var(--amber); }
+
+/* ─── SECTION TITLE ─── */
+.section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 24px 0 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ─── CODE BLOCK ─── */
+.code-wrap {
+  background: #070b12;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 14px 0;
+  font-family: var(--mono);
+}
+
+.code-header {
+  background: var(--surface2);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.code-lang-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-family: var(--mono);
+}
+
+.code-file-tag {
+  font-size: 0.65rem;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+
+.code-dots { display: flex; gap: 5px; }
+.code-dots span {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+}
+
+.code-body {
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.85;
+}
+
+.code-body pre { color: #c9d1d9; white-space: pre; }
+
+/* syntax highlighting */
+.kw  { color: #ff79c6; }
+.fn  { color: #50fa7b; }
+.str { color: #f1fa8c; }
+.var { color: #8be9fd; }
+.cm  { color: #44607e; font-style: italic; }
+.num { color: #bd93f9; }
+.td  { color: var(--amber2); font-weight: 600; }
+.op  { color: #ff6e6e; }
+
+/* ─── TIP / NOTE BOXES ─── */
+.tip-box {
+  display: flex; gap: 12px;
+  padding: 14px 16px;
+  border-radius: 9px;
+  margin: 14px 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.tip-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+.tip-amber { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); color: #fde68a; }
+.tip-cyan  { background: rgba(6,182,212,0.07);  border: 1px solid rgba(6,182,212,0.2);  color: #a5f3fc; }
+.tip-green { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); color: #a7f3d0; }
+.tip-red   { background: rgba(239,68,68,0.07);  border: 1px solid rgba(239,68,68,0.2);  color: #fca5a5; }
+
+.tip-box strong { color: inherit; font-weight: 700; }
+
+/* ─── TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin: 14px 0;
+}
+
+.data-table th {
+  background: var(--surface2);
+  color: var(--amber);
+  font-weight: 700;
+  padding: 9px 13px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.data-table td {
+  padding: 8px 13px;
+  border-bottom: 1px solid rgba(37,48,71,0.6);
+  color: var(--text2);
+  vertical-align: top;
+}
+
+.data-table tr:hover td { background: rgba(255,255,255,0.018); }
+
+.data-table td:first-child {
+  font-family: var(--mono);
+  color: var(--cyan);
+  font-size: 0.75rem;
+}
+
+/* ─── STEP LIST ─── */
+.step-list { display: flex; flex-direction: column; gap: 12px; margin: 14px 0; }
+
+.step {
+  display: flex; gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.step-num {
+  width: 26px; height: 26px;
+  background: var(--amber);
+  color: var(--bg);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+
+.step-body strong { font-size: 0.88rem; color: var(--text); display: block; margin-bottom: 3px; }
+.step-body p { font-size: 0.8rem; color: var(--text2); line-height: 1.5; }
+
+/* ─── PILL TAGS ─── */
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: var(--mono);
+}
+
+/* ─── INLINE CODE ─── */
+code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  background: var(--surface2);
+  color: var(--amber2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* ─── OVERVIEW CARDS ─── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.ov-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.ov-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.ov-card:hover { border-color: var(--amber); transform: translateY(-2px); }
+.ov-card:hover::before { opacity: 1; background: linear-gradient(90deg, var(--amber), var(--cyan)); }
+
+.ov-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.ov-title { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.ov-desc  { font-size: 0.73rem; color: var(--text2); line-height: 1.4; }
+.ov-level { font-size: 0.62rem; font-weight: 700; margin-top: 8px; font-family: var(--mono); }
+
+/* ══════════════════════════════════════════════
+   QUERY LAB — Fully Responsive Layout
+   ══════════════════════════════════════════════ */
+
+#panel-query {
+  display: none;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+#panel-query.active { display: flex; }
+
+/* ── Top meta bar (mode + status) ── */
+.qp-metabar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.qp-title {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 1px;
+}
+
+.qp-mode-toggle {
+  display: flex;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 3px;
+}
+
+.mode-btn {
+  padding: 4px 14px;
+  border-radius: 5px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text2);
+  font-family: var(--sans);
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+.mode-btn.active { background: var(--amber); color: var(--bg); }
+
+.result-status {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+.status-idle  { background: rgba(100,116,139,0.2); color: var(--text3); }
+.status-ok    { background: rgba(16,185,129,0.18); color: var(--green); }
+.status-error { background: rgba(239,68,68,0.18);  color: var(--red);   }
+.status-run   { background: rgba(6,182,212,0.18);  color: var(--cyan);  animation: blink 0.9s infinite; }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+#exec-time { font-size: 0.62rem; color: var(--text3); font-family: var(--mono); margin-left: auto; }
+
+/* ── Snippet ribbon ── */
+.qp-snippets-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: thin;
+}
+.qp-snippets-bar::-webkit-scrollbar { height: 3px; }
+.qp-snippets-bar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.qp-snippets-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: var(--mono);
+  flex-shrink: 0;
+}
+
+.snap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.71rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  white-space: nowrap;
+  transition: all 0.13s;
+  font-family: var(--sans);
+  flex-shrink: 0;
+}
+.snap-btn:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(6,182,212,0.06); }
+.snap-btn.bteq-type { border-color: rgba(245,158,11,0.3); color: var(--amber); }
+.snap-btn.bteq-type:hover { background: rgba(245,158,11,0.08); }
+
+/* ── Action bar ── */
+.qp-actionbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.qp-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  font-family: var(--sans);
+  letter-spacing: 0.2px;
+}
+
+.btn-run {
+  background: var(--amber);
+  color: var(--bg);
+  box-shadow: 0 2px 8px rgba(245,158,11,0.25);
+}
+.btn-run:hover { background: var(--amber2); transform: translateY(-1px); }
+.btn-run:active { transform: translateY(0); }
+
+.btn-clear {
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+.btn-copy {
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-copy:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.qp-hint {
+  font-size: 0.67rem;
+  color: var(--text3);
+  font-family: var(--mono);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ── Main editor + output area ── */
+.qp-workspace {
+  flex: 1;
+  display: flex;
+  min-height: 0;         /* critical for flex children to scroll */
+  flex-direction: row;
+}
+
+/* ── Editor pane ── */
+.qp-editor-pane {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+}
+
+.qp-pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.qp-pane-label {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#editor-mode-label { color: var(--amber); }
+
+#line-count {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+}
+
+#query-editor {
+  flex: 1;
+  background: #050810;
+  color: #e2e8f0;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.85;
+  padding: 14px 16px;
+  border: none;
+  outline: none;
+  resize: none;
+  tab-size: 4;
+  overflow-y: auto;
+  min-height: 0;
+}
+#query-editor::placeholder { color: #3a4a5c; }
+
+html.light #query-editor {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+/* ── Output pane ── */
+.qp-output-pane {
+  width: 42%;
+  min-width: 280px;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg2);
+  min-height: 0;
+}
+
+.qp-pane-header .output-label { color: var(--cyan); }
+
+#query-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 1.75;
+  color: var(--text2);
+  min-height: 0;
+}
+
+.output-line { margin: 2px 0; }
+.out-ok   { color: var(--green); }
+.out-err  { color: var(--red);   }
+.out-info { color: var(--cyan);  }
+.out-warn { color: var(--amber); }
+
+.output-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.71rem;
+  margin: 8px 0;
+}
+.output-table th {
+  background: rgba(245,158,11,0.1);
+  color: var(--amber);
+  padding: 5px 9px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  white-space: nowrap;
+}
+.output-table td {
+  padding: 4px 9px;
+  border-bottom: 1px solid rgba(37,48,71,0.35);
+  color: var(--text2);
+  white-space: nowrap;
+  font-size: 0.7rem;
+}
+.output-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+html.light .output-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+
+/* ── Quick-ref sidebar inside output pane ── */
+.qp-ref-panel {
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+
+.qp-ref-title {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 7px;
+}
+
+.ref-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.12s;
+  border: 1px solid transparent;
+  margin-bottom: 3px;
+}
+.ref-item:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
+.ref-cat {
+  font-size: 0.58rem;
+  margin-left: auto;
+  color: var(--text3);
+  font-family: var(--mono);
+  background: var(--surface3);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── MOBILE: stack editor above output ── */
+@media (max-width: 800px) {
+  #panel-query {
+    height: auto;
+    min-height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+
+  .qp-workspace {
+    flex-direction: column;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .qp-editor-pane {
+    border-right: none;
+    border-bottom: 2px solid var(--amber);
+    min-height: 280px;
+    height: 42vmax;
+    max-height: 420px;
+    flex: none;
+  }
+
+  #query-editor {
+    min-height: 220px;
+    height: 100%;
+    flex: 1;
+  }
+
+  .qp-output-pane {
+    width: 100%;
+    max-width: 100%;
+    min-height: 260px;
+    height: auto;
+    max-height: none;
+    flex: none;
+  }
+
+  #query-output {
+    min-height: 160px;
+    max-height: 340px;
+  }
+
+  .qp-ref-panel { max-height: 180px; }
+
+  .qp-hint { display: none; }
+}
+
+/* ─── TOOLS PANEL ─── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.tool-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+
+.tool-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.tool-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.tool-full-name {
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-family: var(--mono);
+  margin-bottom: 10px;
+}
+
+.tool-desc {
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.tool-features { display: flex; flex-direction: column; gap: 4px; }
+.tool-feature {
+  font-size: 0.77rem;
+  color: var(--text2);
+  display: flex; align-items: center; gap: 6px;
+}
+.tool-feature::before { content: '▸'; color: var(--cyan); font-size: 0.65rem; }
+
+.tool-use-case {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(6,182,212,0.06);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--cyan);
+  border: 1px solid rgba(6,182,212,0.15);
+}
+
+/* ─── PERFORMANCE PANEL ─── */
+.perf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+/* ─── COMPARE TABLE ─── */
+.compare-wrap {
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 600px;
+}
+
+.compare-table th {
+  background: var(--surface2);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.compare-table th:first-child { color: var(--text2); }
+.compare-table th:not(:first-child) { color: var(--amber); font-family: var(--mono); }
+
+.compare-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(37,48,71,0.5);
+  font-size: 0.79rem;
+}
+
+.compare-table td:first-child { color: var(--text); font-weight: 600; }
+.compare-table td:not(:first-child) { color: var(--text2); }
+.compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .overview-grid { grid-template-columns: repeat(2,1fr); }
+  .tools-grid { grid-template-columns: 1fr; }
+}
+
+@media(max-width:900px){
+  #sidebar { width: 210px; }
+  .content-area { padding: 20px; }
+  .section-hero { padding: 24px 20px; }
+  .grid-2,.grid-3 { grid-template-columns: 1fr; }
+  .overview-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ══════════════════════════════════════
+   MOBILE — full responsive overhaul
+   ══════════════════════════════════════ */
+@media(max-width:700px){
+
+  /* ── Topbar: hide tabs + pill, show hamburger ── */
+  .topbar-tabs   { display: none; }
+  .progress-pill { display: none; }
+
+  #topbar {
+    padding: 0 14px;
+    gap: 10px;
+    height: 52px;
+  }
+
+  #app { padding-top: 52px; }
+  #main { height: calc(100vh - 52px - 52px); } /* minus topbar + bottom nav */
+
+  .logo-text { font-size: 0.9rem; }
+
+  /* ── Hamburger button ── */
+  #hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text2);
+    margin-left: auto;
+    order: 3;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  #hamburger:hover { border-color: var(--amber); color: var(--amber); }
+
+  .theme-toggle { order: 4; }
+
+  /* ── Sidebar becomes full-screen drawer ── */
+  #sidebar {
+    position: fixed;
+    top: 52px; left: 0; bottom: 52px;
+    width: 280px;
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    height: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  /* Overlay behind sidebar */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 299;
+    backdrop-filter: blur(2px);
+  }
+  #sidebar-overlay.show { display: block; }
+
+  /* ── Bottom navigation bar ── */
+  #bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 52px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    z-index: 200;
+  }
+
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    color: var(--text3);
+    transition: all 0.15s;
+    padding: 4px 2px;
+    border: none;
+    background: none;
+    font-family: var(--sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bnav-item:active { background: rgba(245,158,11,0.08); }
+
+  .bnav-item.active {
+    color: var(--amber);
+  }
+
+  .bnav-icon { font-size: 1.1rem; line-height: 1; }
+
+  .bnav-label {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+
+  /* Active indicator dot */
+  .bnav-item.active .bnav-icon {
+    position: relative;
+  }
+
+  /* ── Content area padding ── */
+  .content-area { padding: 16px; }
+  .section-hero { padding: 20px 16px 18px; }
+  .section-hero h1 { font-size: 1.4rem; }
+
+  .subtab-bar {
+    padding: 8px 16px 0;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .subtab-bar::-webkit-scrollbar { display: none; }
+
+  .subtab {
+    padding: 8px 12px;
+    font-size: 0.73rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .overview-grid { grid-template-columns: 1fr; }
+
+  .hero-meta { gap: 8px; }
+  .meta-chip { font-size: 0.65rem; padding: 3px 9px; }
+
+  /* Tables scroll horizontally */
+  .data-table, .compare-table { font-size: 0.74rem; }
+  .data-table th, .data-table td { padding: 7px 10px; }
+
+  /* Cards touch-friendly */
+  .card { padding: 14px 16px; }
+  .ov-card { padding: 14px; }
+
+  /* Code blocks */
+  .code-body { font-size: 0.74rem; padding: 12px 14px; }
+
+  /* Step list */
+  .step { padding: 12px 14px; }
+
+  /* Tool cards */
+  .tools-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Query lab on mobile */
+  .qp-metabar { padding: 7px 12px; gap: 8px; }
+  .qp-actionbar { padding: 6px 12px; gap: 6px; }
+  .qp-snippets-bar { padding: 7px 12px; gap: 5px; }
+  .qp-btn { padding: 7px 14px; font-size: 0.76rem; }
+
+  /* Nav links in drawer — bigger touch targets */
+  .nav-link { padding: 12px 16px; font-size: 0.85rem; }
+  .sidebar-group-title { padding: 14px 16px 5px; }
+}
+
+/* Extra small phones */
+@media(max-width:380px){
+  .bnav-label { display: none; }
+  #topbar { padding: 0 10px; }
+  .section-hero h1 { font-size: 1.2rem; }
+  .content-area { padding: 12px; }
+}
+
+/* ANIMATE */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel.active { animation: fadeUp 0.25s ease; }
+
+/* Tab content within panels */
+.subtab-bar {
+  display: flex;
+  gap: 2px;
+  padding: 12px 40px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.subtab {
+  padding: 8px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+  border-top: none; border-left: none; border-right: none;
+  background: none;
+  font-family: var(--sans);
+}
+
+.subtab:hover { color: var(--text); }
+.subtab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+.subcontent { display: none; }
+.subcontent.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR ────────────────────────────────────── -->
+<header id="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark">TD</div>
+    <div class="logo-text">Teradata <span>Mastery</span></div>
+  </div>
+
+  <div class="topbar-tabs">
+    <button class="topbar-tab active" onclick="switchPanel('home')">🏠 Home</button>
+    <button class="topbar-tab" onclick="switchPanel('basics')">Basics</button>
+    <button class="topbar-tab" onclick="switchPanel('sql')">SQL &amp; DML</button>
+    <button class="topbar-tab" onclick="switchPanel('architecture')">Architecture</button>
+    <button class="topbar-tab" onclick="switchPanel('performance')">Performance</button>
+    <button class="topbar-tab" onclick="switchPanel('tools')">Tools &amp; Utilities</button>
+    <button class="topbar-tab" onclick="switchPanel('advanced')">Advanced</button>
+    <button class="topbar-tab" onclick="switchPanel('query')" style="color:var(--amber);">⚡ Query Lab</button>
+  </div>
+
+  <div class="topbar-right">
+    <div class="progress-pill" id="progress-pill">▶ Start Learning</div>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light mode">🌙</button>
+  </div>
+
+  <!-- Mobile only hamburger -->
+  <button id="hamburger" onclick="toggleSidebar()" aria-label="Menu" style="display:none">☰</button>
+</header>
+
+<!-- Mobile sidebar overlay -->
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile bottom navigation -->
+<nav id="bottom-nav" style="display:none">
+  <button class="bnav-item active" onclick="mobileNav('home')" id="bnav-home">
+    <span class="bnav-icon">🏠</span>
+    <span class="bnav-label">Home</span>
+  </button>
+  <button class="bnav-item" onclick="mobileNav('sql')" id="bnav-sql">
+    <span class="bnav-icon">🗃️</span>
+    <span class="bnav-label">SQL</span>
+  </button>
+  <button class="bnav-item" onclick="mobileNav('architecture')" id="bnav-architecture">
+    <span class="bnav-icon">🏗️</span>
+    <span class="bnav-label">Arch</span>
+  </button>
+  <button class="bnav-item" onclick="mobileNav('tools')" id="bnav-tools">
+    <span class="bnav-icon">🛠️</span>
+    <span class="bnav-label">Tools</span>
+  </button>
+  <button class="bnav-item" onclick="mobileNav('query')" id="bnav-query">
+    <span class="bnav-icon">⚡</span>
+    <span class="bnav-label">Lab</span>
+  </button>
+</nav>
+
+<div id="app">
+
+  <!-- ── SIDEBAR ──────────────────────────────────── -->
+  <nav id="sidebar">
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="sidebar-search" placeholder="Search topics..." oninput="filterNav(this.value)">
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Getting Started</div>
+      <div class="nav-link active" onclick="switchPanel('home')" data-search="home overview roadmap intro">
+        <span class="nav-icon">🏠</span> Overview &amp; Roadmap
+      </div>
+      <div class="nav-link" onclick="switchPanel('basics'); switchSub('basics','what-is')" data-search="what is teradata introduction history">
+        <span class="nav-icon">📖</span> What is Teradata?
+      </div>
+      <div class="nav-link" onclick="switchPanel('basics'); switchSub('basics','architecture-intro')" data-search="architecture mpp nodes amps">
+        <span class="nav-icon">🏗️</span> Core Architecture
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">SQL Fundamentals</div>
+      <div class="nav-link" onclick="switchPanel('sql'); switchSub('sql','ddl')" data-search="ddl create table alter drop">
+        <span class="nav-icon">🗃️</span> DDL Statements
+      </div>
+      <div class="nav-link" onclick="switchPanel('sql'); switchSub('sql','dml')" data-search="dml insert update delete select">
+        <span class="nav-icon">📝</span> DML &amp; SELECT
+      </div>
+      <div class="nav-link" onclick="switchPanel('sql'); switchSub('sql','joins')" data-search="joins inner outer merge">
+        <span class="nav-icon">🔗</span> Joins &amp; Set Ops
+      </div>
+      <div class="nav-link" onclick="switchPanel('sql'); switchSub('sql','analytics')" data-search="analytics window rank partition over">
+        <span class="nav-icon">📊</span> Analytics Functions <span class="nav-badge badge-int">INT</span>
+      </div>
+      <div class="nav-link" onclick="switchPanel('sql'); switchSub('sql','macros-sp')" data-search="macros stored procedure sp">
+        <span class="nav-icon">⚙️</span> Macros &amp; Stored Procs
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Architecture Deep Dive</div>
+      <div class="nav-link" onclick="switchPanel('architecture'); switchSub('arch','pi')" data-search="primary index pi partitioned nusi usi">
+        <span class="nav-icon">🗝️</span> Primary Index (PI/PPI) <span class="nav-badge badge-int">INT</span>
+      </div>
+      <div class="nav-link" onclick="switchPanel('architecture'); switchSub('arch','distribution')" data-search="row distribution hashing skew amps">
+        <span class="nav-icon">⚖️</span> Data Distribution
+      </div>
+      <div class="nav-link" onclick="switchPanel('architecture'); switchSub('arch','parsing')" data-search="parsing engine optimizer bynet">
+        <span class="nav-icon">🧠</span> Parsing Engine &amp; Optimizer
+      </div>
+      <div class="nav-link" onclick="switchPanel('architecture'); switchSub('arch','spool')" data-search="spool space perm temp">
+        <span class="nav-icon">💾</span> Space Management
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Performance Tuning</div>
+      <div class="nav-link" onclick="switchPanel('performance'); switchSub('perf','explain')" data-search="explain plan execution">
+        <span class="nav-icon">🔬</span> EXPLAIN Plan <span class="nav-badge badge-adv">ADV</span>
+      </div>
+      <div class="nav-link" onclick="switchPanel('performance'); switchSub('perf','stats')" data-search="statistics collect stats optimizer">
+        <span class="nav-icon">📈</span> Collect Statistics
+      </div>
+      <div class="nav-link" onclick="switchPanel('performance'); switchSub('perf','skew')" data-search="skew uneven distribution hot amps">
+        <span class="nav-icon">⚠️</span> Skew &amp; Optimization
+      </div>
+      <div class="nav-link" onclick="switchPanel('performance'); switchSub('perf','query-perf')" data-search="query performance tuning tips">
+        <span class="nav-icon">🚀</span> Query Tuning Tips
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Tools &amp; Utilities</div>
+      <div class="nav-link" onclick="switchPanel('tools'); switchSub('tools','bteq')" data-search="bteq batch teradata query">
+        <span class="nav-icon">💻</span> BTEQ <span class="nav-badge badge-adv">ADV</span>
+      </div>
+      <div class="nav-link" onclick="switchPanel('tools'); switchSub('tools','fastload')" data-search="fastload bulk load utility">
+        <span class="nav-icon">⚡</span> FastLoad
+      </div>
+      <div class="nav-link" onclick="switchPanel('tools'); switchSub('tools','multiload')" data-search="multiload upsert delete update">
+        <span class="nav-icon">🔄</span> MultiLoad
+      </div>
+      <div class="nav-link" onclick="switchPanel('tools'); switchSub('tools','tpt')" data-search="tpt teradata parallel transporter">
+        <span class="nav-icon">🚄</span> TPT (Parallel Transporter)
+      </div>
+      <div class="nav-link" onclick="switchPanel('tools'); switchSub('tools','tdstudio')" data-search="teradata studio viewpoint">
+        <span class="nav-icon">🖥️</span> TD Studio &amp; Viewpoint
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Advanced Topics</div>
+      <div class="nav-link" onclick="switchPanel('advanced'); switchSub('adv','scd')" data-search="scd type 2 slowly changing dimension">
+        <span class="nav-icon">🕒</span> SCD Types <span class="nav-badge badge-adv">ADV</span>
+      </div>
+      <div class="nav-link" onclick="switchPanel('advanced'); switchSub('adv','temporal')" data-search="temporal tables bitemporal valid time">
+        <span class="nav-icon">📅</span> Temporal Tables
+      </div>
+      <div class="nav-link" onclick="switchPanel('advanced'); switchSub('adv','tdgss-security')" data-search="security roles profiles grants access">
+        <span class="nav-icon">🔐</span> Security &amp; Access Control
+      </div>
+      <div class="nav-link" onclick="switchPanel('advanced'); switchSub('adv','migration')" data-search="migration snowflake cloud azure synapse">
+        <span class="nav-icon">☁️</span> Cloud Migration
+      </div>
+      <div class="nav-link" onclick="switchPanel('query')" data-search="query lab playground test bteq">
+        <span class="nav-icon">⚡</span> Query Lab <span class="nav-badge badge-new">NEW</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ─────────────────────────────── -->
+  <main id="main">
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: HOME
+════════════════════════════════════════════════════════ -->
+<div class="panel active" id="panel-home">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Complete Learning Platform</div>
+    <h1>Teradata Mastery<br><span style="color:var(--amber)">From Scratch to Senior</span></h1>
+    <p>A comprehensive, hands-on Teradata curriculum covering architecture, SQL, performance tuning, utilities, and advanced EDW concepts — purpose-built for data engineers.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-amber">⚡ 12 Core Modules</span>
+      <span class="meta-chip chip-cyan">🗄️ All Teradata Tools</span>
+      <span class="meta-chip chip-green">✅ Interview Ready</span>
+      <span class="meta-chip chip-purple">🔬 Live Query Lab</span>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="section-title">Learning Modules — Click to Begin</div>
+    <div class="overview-grid">
+      <div class="ov-card" onclick="switchPanel('basics')">
+        <div class="ov-icon">📖</div>
+        <div class="ov-title">Teradata Basics</div>
+        <div class="ov-desc">Introduction, history, MPP architecture, key concepts</div>
+        <div class="ov-level" style="color:var(--green)">● Beginner</div>
+      </div>
+      <div class="ov-card" onclick="switchPanel('sql')">
+        <div class="ov-icon">🗃️</div>
+        <div class="ov-title">SQL &amp; DML</div>
+        <div class="ov-desc">DDL, DML, joins, analytics functions, macros, stored procs</div>
+        <div class="ov-level" style="color:var(--green)">● Beginner → Intermediate</div>
+      </div>
+      <div class="ov-card" onclick="switchPanel('architecture')">
+        <div class="ov-icon">🏗️</div>
+        <div class="ov-title">Architecture Deep Dive</div>
+        <div class="ov-desc">PI, PPI, USI, NUSI, data distribution, AMPs, bynet</div>
+        <div class="ov-level" style="color:var(--amber)">● Intermediate</div>
+      </div>
+      <div class="ov-card" onclick="switchPanel('performance')">
+        <div class="ov-icon">🚀</div>
+        <div class="ov-title">Performance Tuning</div>
+        <div class="ov-desc">EXPLAIN plan, COLLECT STATS, skew, query optimization</div>
+        <div class="ov-level" style="color:var(--red)">● Advanced</div>
+      </div>
+      <div class="ov-card" onclick="switchPanel('tools')">
+        <div class="ov-icon">🛠️</div>
+        <div class="ov-title">Tools &amp; Utilities</div>
+        <div class="ov-desc">BTEQ, FastLoad, MultiLoad, TPT, TD Studio, Viewpoint</div>
+        <div class="ov-level" style="color:var(--amber)">● Intermediate → Advanced</div>
+      </div>
+      <div class="ov-card" onclick="switchPanel('advanced')">
+        <div class="ov-icon">🎓</div>
+        <div class="ov-title">Advanced Topics</div>
+        <div class="ov-desc">SCD, temporal tables, security, cloud migration to Snowflake</div>
+        <div class="ov-level" style="color:var(--red)">● Advanced</div>
+      </div>
+    </div>
+
+    <div class="section-title">Why Teradata?</div>
+    <div class="grid-3">
+      <div class="card card-accent-amber">
+        <h3>🏆 Industry Leader</h3>
+        <p>Teradata powers enterprise EDW for BFSI, retail, telecom. Used by 80% of Fortune 100 for mission-critical analytics.</p>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>⚡ Massively Parallel</h3>
+        <p>MPP architecture scales linearly. Thousands of AMPs process data in parallel — petabyte-scale queries in seconds.</p>
+      </div>
+      <div class="card card-accent-green">
+        <h3>💰 Career Value</h3>
+        <p>Senior Teradata developers command ₹20–45 LPA in India. Niche expertise + cloud skills = high-demand profile.</p>
+      </div>
+    </div>
+
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Study Strategy:</strong> Start with Basics → Architecture → SQL → Performance. Then Tools (BTEQ is critical). Use the Query Lab to practice daily. Each module has interview-ready answers marked with 🎯.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: BASICS
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-basics">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 01</div>
+    <h1>Teradata Basics</h1>
+    <p>Understand what Teradata is, why it exists, how it differs from OLTP databases, and its foundational concepts that everything else builds upon.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-green">● Beginner</span>
+      <span class="meta-chip chip-amber">4 Topics</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('basics','what-is')">What is Teradata?</button>
+    <button class="subtab" onclick="switchSub('basics','architecture-intro')">Core Architecture</button>
+    <button class="subtab" onclick="switchSub('basics','key-concepts')">Key Concepts</button>
+    <button class="subtab" onclick="switchSub('basics','td-vs-others')">TD vs Others</button>
+  </div>
+
+  <!-- SUB: What is Teradata -->
+  <div class="subcontent active content-area" id="basics-what-is">
+    <div class="section-title">Introduction</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>What is Teradata?</h3>
+        <p>Teradata is a Relational Database Management System (RDBMS) designed specifically for large-scale analytical workloads — OLAP (Online Analytical Processing), not OLTP.</p>
+        <p style="margin-top:8px">It uses <strong>Massively Parallel Processing (MPP)</strong> to distribute data and queries across hundreds/thousands of independent processing units.</p>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>Key Differentiators</h3>
+        <ul>
+          <li>Shared-Nothing MPP architecture</li>
+          <li>Linear scalability (add nodes = more power)</li>
+          <li>Automatic data distribution via hashing</li>
+          <li>Full SQL-92 compliance + extensions</li>
+          <li>Built-in parallel optimizer</li>
+          <li>Handles petabytes natively</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">Teradata History Timeline</div>
+    <div class="step-list">
+      <div class="step"><div class="step-num">79</div><div class="step-body"><strong>Founded 1979</strong><p>Teradata Corporation founded in Brentwood, California. Pioneer in relational databases for large scale workloads.</p></div></div>
+      <div class="step"><div class="step-num">84</div><div class="step-body"><strong>First MPP Database 1984</strong><p>Shipped first commercial parallel database machine. Walmart becomes early major customer for retail analytics.</p></div></div>
+      <div class="step"><div class="step-num">99</div><div class="step-body"><strong>Teradata Warehouse 1999</strong><p>Dominant EDW vendor — powers banking, telecom, retail analytics worldwide. Teradata 12 introduced.</p></div></div>
+      <div class="step"><div class="step-num">15</div><div class="step-body"><strong>Teradata 15/16 (2015–18)</strong><p>Temporal tables, JSON support, Columnar tables, Hadoop connectivity. Vantage platform introduced.</p></div></div>
+      <div class="step"><div class="step-num">20</div><div class="step-body"><strong>Teradata Vantage (2020+)</strong><p>Unified analytics platform. Cloud-native on AWS/Azure/GCP. Supports Python, R, ML extensions.</p></div></div>
+    </div>
+
+    <div class="section-title">OLTP vs OLAP vs Teradata</div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead><tr><th>Feature</th><th>OLTP (MySQL/Oracle)</th><th>Data Lake (Hadoop)</th><th>Teradata EDW</th></tr></thead>
+        <tbody>
+          <tr><td>Purpose</td><td>Transactions (row-level)</td><td>Raw data storage</td><td>Analytics (aggregations)</td></tr>
+          <tr><td>Query Pattern</td><td>Small, fast, indexed</td><td>Full scans, flexible</td><td>Large parallel scans</td></tr>
+          <tr><td>Scale</td><td>GB–TB</td><td>TB–PB</td><td>TB–PB (structured)</td></tr>
+          <tr><td>Concurrency</td><td>Thousands/sec</td><td>Low–medium</td><td>Hundreds of complex queries</td></tr>
+          <tr><td>SQL Support</td><td>Full ANSI</td><td>HiveQL, SparkSQL</td><td>Full ANSI + Extensions</td></tr>
+          <tr><td>Optimization</td><td>B-Tree indexes</td><td>Partitioning</td><td>PI, Statistics, Optimizer</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Interview Answer:</strong> "Teradata is an enterprise MPP RDBMS optimized for OLAP workloads. Unlike OLTP databases that optimize for thousands of small transactions, Teradata distributes data across AMPs using a hashing algorithm and runs queries in massively parallel fashion — making it ideal for petabyte-scale EDW workloads."</div>
+    </div>
+  </div>
+
+  <!-- SUB: Architecture Intro -->
+  <div class="subcontent content-area" id="basics-architecture-intro">
+    <div class="section-title">Teradata Architecture — Big Picture</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>🧠 Parsing Engine (PE)</h3>
+        <ul>
+          <li>Receives SQL from client</li>
+          <li>Parses &amp; validates SQL syntax</li>
+          <li>Calls the <strong>Optimizer</strong> to find best execution plan</li>
+          <li>Dispatches work steps to AMPs via BYNET</li>
+          <li>Collects results and returns to client</li>
+        </ul>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>⚡ Access Module Processors (AMPs)</h3>
+        <ul>
+          <li>Core processing units — each manages its own disk (vdisk)</li>
+          <li>Each AMP stores a subset of table rows</li>
+          <li>AMPs work in <strong>parallel</strong> — no shared memory</li>
+          <li>Handles read/write, sorting, aggregation</li>
+          <li>More AMPs = more parallelism = faster queries</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-green">
+        <h3>🔗 BYNET</h3>
+        <ul>
+          <li>Internal high-speed interconnect network</li>
+          <li>Connects PEs to AMPs</li>
+          <li>Redundant — BYNET 0 and BYNET 1</li>
+          <li>Handles redistribution of rows during joins</li>
+        </ul>
+      </div>
+      <div class="card card-accent-purple">
+        <h3>💻 Node</h3>
+        <ul>
+          <li>Physical/virtual server in the cluster</li>
+          <li>Each node has multiple AMPs and a PE</li>
+          <li>Nodes are independent (shared-nothing)</li>
+          <li>Adding nodes scales both compute and storage</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">Data Flow: How a Query Executes</div>
+    <div class="step-list">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>Client submits SQL</strong><p>Application / BTEQ sends SQL to the Parsing Engine via JDBC/ODBC/CLI</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><strong>PE parses &amp; optimizes</strong><p>Parser validates syntax. Optimizer uses statistics to build the best execution plan (join order, strategy, etc.)</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><strong>PE dispatches steps to AMPs via BYNET</strong><p>Execution plan broken into steps. Each AMP receives its work package via the BYNET interconnect.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><strong>AMPs work in parallel</strong><p>Every AMP processes its local rows simultaneously. Aggregations, sorts, joins all happen in parallel.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-body"><strong>Results returned to PE → Client</strong><p>AMPs send partial results back to PE via BYNET. PE merges final result and returns to client.</p></div></div>
+    </div>
+
+    <div class="tip-box tip-cyan">
+      <div class="tip-icon">💡</div>
+      <div><strong>Key Insight:</strong> The power of Teradata is that steps 4 happens on ALL AMPs simultaneously. A 512-AMP system processes data ~512x faster than a single-processor system for full table scans. This is why large aggregations are extremely fast.</div>
+    </div>
+  </div>
+
+  <!-- SUB: Key Concepts -->
+  <div class="subcontent content-area" id="basics-key-concepts">
+    <div class="section-title">Fundamental Teradata Concepts</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>Row Hashing</h3>
+        <p>When a row is inserted, Teradata applies a <strong>hash function to the Primary Index value</strong>. The resulting hash determines which AMP stores the row. Same PI value → always same AMP.</p>
+        <div class="tip-box tip-amber" style="margin-top:10px">
+          <div class="tip-icon">⚡</div>
+          <div>This is why choosing the right PI is so critical — a bad PI = uneven distribution = skew = slow queries.</div>
+        </div>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>Primary Index (PI)</h3>
+        <ul>
+          <li><strong>UPI</strong> — Unique Primary Index (no duplicates, even distribution)</li>
+          <li><strong>NUPI</strong> — Non-Unique PI (duplicates allowed, may cause skew)</li>
+          <li><strong>PPI</strong> — Partitioned PI (range-based access within AMP)</li>
+          <li>PI is NOT necessarily the same as primary key</li>
+          <li>Choose: high cardinality, frequently joined, evenly distributed column(s)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-green">
+        <h3>Secondary Indexes</h3>
+        <ul>
+          <li><strong>USI</strong> — Unique Secondary Index — subtable stored on every AMP</li>
+          <li><strong>NUSI</strong> — Non-Unique Secondary Index — bitmap-based</li>
+          <li>Secondary indexes add storage overhead</li>
+          <li>Useful for frequently filtered non-PI columns</li>
+        </ul>
+      </div>
+      <div class="card card-accent-red">
+        <h3>Space Types</h3>
+        <ul>
+          <li><strong>PERM Space</strong> — Permanent storage for tables/indexes</li>
+          <li><strong>SPOOL Space</strong> — Temp work area for query results &amp; intermediate steps</li>
+          <li><strong>TEMP Space</strong> — For Global Temporary Tables</li>
+          <li>PERM and SPOOL are per-user/per-database allocations</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">Teradata-Specific SQL Extensions</div>
+    <table class="data-table">
+      <thead><tr><th>Feature</th><th>Description</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>SEL</td><td>Shorthand for SELECT</td><td><code>SEL * FROM mytable;</code></td></tr>
+        <tr><td>TOP N</td><td>Return first N rows</td><td><code>SEL TOP 10 * FROM tbl;</code></td></tr>
+        <tr><td>DATE</td><td>Current date keyword</td><td><code>WHERE load_dt = DATE - 1</code></td></tr>
+        <tr><td>CAST / FORMAT</td><td>Type conversion with format mask</td><td><code>CAST(amt AS DECIMAL(10,2))</code></td></tr>
+        <tr><td>QUALIFY</td><td>Filter on window function result</td><td><code>QUALIFY ROW_NUMBER() OVER(...) = 1</code></td></tr>
+        <tr><td>SAMPLE</td><td>Random row sampling</td><td><code>SELECT * FROM tbl SAMPLE 1000</code></td></tr>
+        <tr><td>BTEQ .IF</td><td>Conditional in BTEQ</td><td><code>.IF ERRORCODE &lt;&gt; 0 THEN .QUIT</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SUB: TD vs Others -->
+  <div class="subcontent content-area" id="basics-td-vs-others">
+    <div class="section-title">Teradata vs. Modern Alternatives</div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead><tr><th>Dimension</th><th>Teradata</th><th>Snowflake</th><th>Databricks</th><th>BigQuery</th></tr></thead>
+        <tbody>
+          <tr><td>Architecture</td><td>Shared-Nothing MPP</td><td>Multi-cluster Shared Data</td><td>Spark-based Lakehouse</td><td>Serverless Columnar</td></tr>
+          <tr><td>Deployment</td><td>On-prem / Cloud</td><td>Cloud-only SaaS</td><td>Cloud (multi)</td><td>GCP only</td></tr>
+          <tr><td>Pricing</td><td>License + hardware</td><td>Pay-per-query credits</td><td>DBU credits</td><td>Pay-per-TB scanned</td></tr>
+          <tr><td>SQL Dialect</td><td>Teradata SQL</td><td>Standard SQL</td><td>SparkSQL / SQL</td><td>Standard SQL</td></tr>
+          <tr><td>Best For</td><td>Complex EDW, high concurrency</td><td>Cloud DW, semi-structured</td><td>ML, streaming, ETL</td><td>Ad-hoc analytics</td></tr>
+          <tr><td>Migration Effort</td><td>—</td><td>Medium (SQL dialect gap)</td><td>High (paradigm shift)</td><td>Medium–High</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Interview Gold:</strong> "Teradata excels in high-concurrency, mission-critical workloads with complex SQL. Snowflake wins on cloud elasticity and semi-structured data. In migration projects, the main gaps are syntax differences (QUALIFY → in Snowflake it works, but TOP N, DATE arithmetic, BTEQ scripts all need rewrite), utility replacement (BTEQ → SnowSQL), and ETL re-engineering."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: SQL
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-sql">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 02</div>
+    <h1>SQL &amp; DML</h1>
+    <p>Complete Teradata SQL from DDL to advanced analytics functions. Every statement with syntax, examples, and EDW use cases.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-green">● Beginner → Intermediate</span>
+      <span class="meta-chip chip-amber">5 Topics</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('sql','ddl')">DDL</button>
+    <button class="subtab" onclick="switchSub('sql','dml')">DML &amp; SELECT</button>
+    <button class="subtab" onclick="switchSub('sql','joins')">Joins &amp; Set Ops</button>
+    <button class="subtab" onclick="switchSub('sql','analytics')">Analytics Functions</button>
+    <button class="subtab" onclick="switchSub('sql','macros-sp')">Macros &amp; Stored Procs</button>
+  </div>
+
+  <!-- DDL -->
+  <div class="subcontent active content-area" id="sql-ddl">
+    <div class="section-title">Data Definition Language</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">CREATE TABLE — Full Syntax</span></div>
+      <div class="code-body"><pre><span class="cm">-- Standard Permanent Table</span>
+<span class="kw">CREATE</span> <span class="kw">SET</span> TABLE EDW_PROD.SALES_FACT
+(
+    SALE_ID      <span class="td">INTEGER</span>         <span class="kw">NOT NULL</span>,
+    CUST_ID      <span class="td">INTEGER</span>         <span class="kw">NOT NULL</span>,
+    PROD_ID      <span class="td">INTEGER</span>         <span class="kw">NOT NULL</span>,
+    SALE_DATE    <span class="td">DATE FORMAT</span> <span class="str">'YYYY-MM-DD'</span> <span class="kw">NOT NULL</span>,
+    AMOUNT       <span class="td">DECIMAL</span>(<span class="num">15</span>,<span class="num">2</span>),
+    REGION_CD    <span class="td">CHAR</span>(<span class="num">3</span>),
+    LOAD_DT      <span class="td">DATE</span>            <span class="kw">DEFAULT</span> <span class="td">DATE</span>
+)
+<span class="kw">PRIMARY INDEX</span> (CUST_ID)           <span class="cm">-- NUPI: rows distributed by CUST_ID hash</span>
+<span class="kw">PARTITION BY</span> RANGE_N(             <span class="cm">-- PPI: partition by year-month</span>
+    SALE_DATE <span class="kw">BETWEEN</span>
+    <span class="td">DATE</span> <span class="str">'2020-01-01'</span> <span class="kw">AND</span>
+    <span class="td">DATE</span> <span class="str">'2030-12-31'</span>
+    <span class="kw">EACH INTERVAL</span> <span class="str">'1'</span> MONTH
+);
+
+<span class="cm">-- Volatile Table (session-scoped temp)</span>
+<span class="kw">CREATE VOLATILE TABLE</span> VT_TEMP_SALES
+(
+    SALE_ID  <span class="td">INTEGER</span>,
+    AMOUNT   <span class="td">DECIMAL</span>(<span class="num">12</span>,<span class="num">2</span>)
+) <span class="kw">PRIMARY INDEX</span> (SALE_ID)
+<span class="kw">ON COMMIT PRESERVE ROWS</span>;
+
+<span class="cm">-- SET vs MULTISET: SET rejects duplicate rows, MULTISET allows</span>
+<span class="cm">-- Always use SET for fact tables to prevent accidental duplicates</span></pre></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>Table Types in Teradata</h3>
+        <ul>
+          <li><strong>Permanent Table</strong> — Persists until dropped</li>
+          <li><strong>Volatile Table (VT)</strong> — Exists only for session. Auto-dropped on disconnect.</li>
+          <li><strong>Global Temporary Table (GTT)</strong> — Structure persists; data is session-scoped</li>
+          <li><strong>Derived Table</strong> — Inline sub-query result set</li>
+          <li><strong>View</strong> — Named SELECT statement</li>
+        </ul>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>SET vs MULTISET</h3>
+        <p><strong>SET table:</strong> Rejects exact duplicate rows (all column values identical). Teradata default.</p>
+        <p style="margin-top:8px"><strong>MULTISET table:</strong> Allows duplicate rows. Use when source data intentionally has duplicates.</p>
+        <div class="tip-box tip-amber" style="margin-top:8px;font-size:0.78rem;">Use SET tables in EDW to enforce data integrity and prevent accidental load duplicates.</div>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">ALTER, DROP, CREATE INDEX</span></div>
+      <div class="code-body"><pre><span class="cm">-- Add column</span>
+<span class="kw">ALTER TABLE</span> EDW_PROD.SALES_FACT
+<span class="kw">ADD</span> CHANNEL_CD <span class="td">VARCHAR</span>(<span class="num">20</span>);
+
+<span class="cm">-- Drop column</span>
+<span class="kw">ALTER TABLE</span> EDW_PROD.SALES_FACT
+<span class="kw">DROP</span> CHANNEL_CD;
+
+<span class="cm">-- Create Secondary Index</span>
+<span class="kw">CREATE INDEX</span> (PROD_ID) <span class="kw">ON</span> EDW_PROD.SALES_FACT;      <span class="cm">-- NUSI</span>
+<span class="kw">CREATE UNIQUE INDEX</span> (SALE_ID) <span class="kw">ON</span> EDW_PROD.SALES_FACT; <span class="cm">-- USI</span>
+
+<span class="cm">-- Rename table</span>
+<span class="kw">RENAME TABLE</span> EDW_PROD.SALES_FACT <span class="kw">TO</span> EDW_PROD.SALES_FACT_BAK;
+
+<span class="cm">-- Drop table</span>
+<span class="kw">DROP TABLE</span> EDW_PROD.SALES_FACT_BAK;</pre></div>
+    </div>
+  </div>
+
+  <!-- DML -->
+  <div class="subcontent content-area" id="sql-dml">
+    <div class="section-title">DML — Data Manipulation Language</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">INSERT / UPDATE / DELETE / MERGE</span></div>
+      <div class="code-body"><pre><span class="cm">-- INSERT from SELECT (ETL pattern)</span>
+<span class="kw">INSERT INTO</span> EDW_PROD.SALES_FACT
+<span class="kw">SELECT</span>
+    s.SALE_ID,
+    s.CUST_ID,
+    s.PROD_ID,
+    <span class="kw">CAST</span>(s.SALE_DT <span class="kw">AS DATE FORMAT</span> <span class="str">'YYYY-MM-DD'</span>),
+    s.SALE_AMT,
+    s.REGION,
+    <span class="td">DATE</span>
+<span class="kw">FROM</span> EDW_STG.SALES_STG s
+<span class="kw">WHERE</span> s.LOAD_DT = <span class="td">DATE</span> - <span class="num">1</span>
+  <span class="kw">AND</span> s.STATUS_CD = <span class="str">'A'</span>;
+
+<span class="cm">-- UPDATE with JOIN</span>
+<span class="kw">UPDATE</span> f
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT f,
+     EDW_PROD.CUST_DIM c
+<span class="kw">SET</span> f.REGION_CD = c.REGION_CD
+<span class="kw">WHERE</span> f.CUST_ID = c.CUST_ID
+  <span class="kw">AND</span> f.REGION_CD <span class="kw">IS NULL</span>;
+
+<span class="cm">-- DELETE with condition</span>
+<span class="kw">DELETE FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">WHERE</span> SALE_DATE < <span class="td">DATE</span> - <span class="num">365</span>
+  <span class="kw">AND</span> REGION_CD = <span class="str">'XX'</span>;
+
+<span class="cm">-- MERGE (Upsert) — Most used in SCD Type 1</span>
+<span class="kw">MERGE INTO</span> EDW_PROD.CUST_DIM tgt
+<span class="kw">USING</span> EDW_STG.CUST_STG src
+<span class="kw">ON</span> (tgt.CUST_ID = src.CUST_ID)
+<span class="kw">WHEN MATCHED THEN UPDATE SET</span>
+    tgt.CUST_NAME = src.CUST_NAME,
+    tgt.EMAIL     = src.EMAIL,
+    tgt.UPD_DT    = <span class="td">DATE</span>
+<span class="kw">WHEN NOT MATCHED THEN INSERT</span>
+VALUES (src.CUST_ID, src.CUST_NAME, src.EMAIL, <span class="td">DATE</span>);</pre></div>
+    </div>
+
+    <div class="section-title">SELECT — Advanced Patterns</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">SELECT patterns used in EDW</span></div>
+      <div class="code-body"><pre><span class="cm">-- Date arithmetic (Teradata-specific)</span>
+<span class="kw">SELECT</span> SALE_DATE,
+       SALE_DATE - <span class="num">30</span>          <span class="kw">AS</span> THIRTY_DAYS_AGO,
+       <td>DATE</td>                    <span class="kw">AS</span> TODAY,
+       EXTRACT(YEAR <span class="kw">FROM</span> SALE_DATE) <span class="kw">AS</span> SALE_YEAR
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">WHERE</span> SALE_DATE <span class="kw">BETWEEN</span> <td>DATE</td> - <span class="num">30</span> <span class="kw">AND</span> <td>DATE</td>;
+
+<span class="cm">-- QUALIFY — filter on window function (Teradata-specific)</span>
+<span class="kw">SELECT</span> CUST_ID, SALE_DATE, AMOUNT
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">QUALIFY</span> ROW_NUMBER() <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> CUST_ID <span class="kw">ORDER BY</span> SALE_DATE <span class="kw">DESC</span>) = <span class="num">1</span>;
+
+<span class="cm">-- TOP with SAMPLE</span>
+<span class="kw">SELECT</span> TOP <span class="num">100</span> * <span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">ORDER BY</span> AMOUNT <span class="kw">DESC</span>;
+
+<span class="cm">-- Conditional aggregation</span>
+<span class="kw">SELECT</span>
+    REGION_CD,
+    COUNT(*) <span class="kw">AS</span> TOTAL_SALES,
+    SUM(CASE <span class="kw">WHEN</span> AMOUNT > <span class="num">1000</span> <span class="kw">THEN</span> <span class="num">1</span> <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> HIGH_VALUE,
+    SUM(AMOUNT) <span class="kw">AS</span> TOTAL_AMOUNT,
+    AVG(AMOUNT) <span class="kw">AS</span> AVG_AMOUNT
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">WHERE</span> SALE_DATE >= <td>DATE</td> - <span class="num">90</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">HAVING</span> TOTAL_AMOUNT > <span class="num">100000</span>
+<span class="kw">ORDER BY</span> TOTAL_AMOUNT <span class="kw">DESC</span>;</pre></div>
+    </div>
+  </div>
+
+  <!-- JOINS -->
+  <div class="subcontent content-area" id="sql-joins">
+    <div class="section-title">Joins &amp; Set Operations</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Join Types</span></div>
+      <div class="code-body"><pre><span class="cm">-- INNER JOIN</span>
+<span class="kw">SELECT</span> f.SALE_ID, c.CUST_NAME, p.PROD_NAME, f.AMOUNT
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT f
+<span class="kw">INNER JOIN</span> EDW_PROD.CUST_DIM  c <span class="kw">ON</span> f.CUST_ID = c.CUST_ID
+<span class="kw">INNER JOIN</span> EDW_PROD.PROD_DIM  p <span class="kw">ON</span> f.PROD_ID = p.PROD_ID;
+
+<span class="cm">-- LEFT OUTER JOIN (all fact rows, NULL for unmatched dims)</span>
+<span class="kw">SELECT</span> f.SALE_ID, COALESCE(c.CUST_NAME, <span class="str">'UNKNOWN'</span>) <span class="kw">AS</span> CUST_NM
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT f
+<span class="kw">LEFT OUTER JOIN</span> EDW_PROD.CUST_DIM c <span class="kw">ON</span> f.CUST_ID = c.CUST_ID;
+
+<span class="cm">-- CROSS JOIN (Cartesian) — use carefully!</span>
+<span class="kw">SELECT</span> a.REGION_CD, b.PROD_CD
+<span class="kw">FROM</span> EDW_PROD.REGION_REF a
+<span class="kw">CROSS JOIN</span> EDW_PROD.PROD_REF b;
+
+<span class="cm">-- SET Operations</span>
+<span class="cm">-- UNION ALL (no dedup — faster)</span>
+<span class="kw">SELECT</span> CUST_ID, AMOUNT <span class="kw">FROM</span> EDW_PROD.SALES_2023
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> CUST_ID, AMOUNT <span class="kw">FROM</span> EDW_PROD.SALES_2024;
+
+<span class="cm">-- INTERSECT (rows in both)</span>
+<span class="kw">SELECT</span> CUST_ID <span class="kw">FROM</span> EDW_PROD.ACTIVE_CUSTS
+<span class="kw">INTERSECT</span>
+<span class="kw">SELECT</span> CUST_ID <span class="kw">FROM</span> EDW_PROD.HIGH_VALUE_CUSTS;
+
+<span class="cm">-- MINUS / EXCEPT (rows in first but not second)</span>
+<span class="kw">SELECT</span> CUST_ID <span class="kw">FROM</span> EDW_PROD.ALL_CUSTS
+<span class="kw">MINUS</span>
+<span class="kw">SELECT</span> CUST_ID <span class="kw">FROM</span> EDW_PROD.CHURNED_CUSTS;</pre></div>
+    </div>
+
+    <div class="section-title">Teradata Join Strategies (Optimizer)</div>
+    <table class="data-table">
+      <thead><tr><th>Join Strategy</th><th>When Used</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>Row Hash Match Scan</td><td>Both tables have same PI — already co-located on same AMP</td><td>⚡ Cheapest</td></tr>
+        <tr><td>Merge Join</td><td>Tables sorted and joined on sorted key</td><td>✅ Efficient</td></tr>
+        <tr><td>Hash Join</td><td>One table redistributed by hash of join key</td><td>⚠️ BYNET traffic</td></tr>
+        <tr><td>Product Join</td><td>Cross join or no equi-join — all combinations</td><td>❌ Expensive</td></tr>
+        <tr><td>Nested Join</td><td>USI used to access small table row-by-row</td><td>✅ For small tables</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div class="subcontent content-area" id="sql-analytics">
+    <div class="section-title">Analytics (Window) Functions</div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Most asked in interviews!</strong> Analytics functions compute values across a set of rows (the "window") without collapsing them like GROUP BY does. Used heavily in SCD Type 2, ranking, running totals.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Window Functions — Complete Reference</span></div>
+      <div class="code-body"><pre><span class="cm">-- ROW_NUMBER: Unique sequential number per partition</span>
+<span class="kw">SELECT</span> CUST_ID, SALE_DATE, AMOUNT,
+    ROW_NUMBER() <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> CUST_ID <span class="kw">ORDER BY</span> SALE_DATE <span class="kw">DESC</span>) <span class="kw">AS</span> RN
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- QUALIFY to get latest record per customer (SCD2 pattern)</span>
+<span class="kw">SELECT</span> CUST_ID, SALE_DATE, AMOUNT
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">QUALIFY</span> ROW_NUMBER() <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> CUST_ID <span class="kw">ORDER BY</span> SALE_DATE <span class="kw">DESC</span>) = <span class="num">1</span>;
+
+<span class="cm">-- RANK / DENSE_RANK</span>
+<span class="kw">SELECT</span> CUST_ID, AMOUNT,
+    RANK()       <span class="kw">OVER</span>(<span class="kw">ORDER BY</span> AMOUNT <span class="kw">DESC</span>) <span class="kw">AS</span> RNK,      <span class="cm">-- gaps: 1,2,2,4</span>
+    DENSE_RANK() <span class="kw">OVER</span>(<span class="kw">ORDER BY</span> AMOUNT <span class="kw">DESC</span>) <span class="kw">AS</span> DRNK     <span class="cm">-- no gaps: 1,2,2,3</span>
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- Running Total / Cumulative Sum</span>
+<span class="kw">SELECT</span> SALE_DATE, AMOUNT,
+    SUM(AMOUNT) <span class="kw">OVER</span>(<span class="kw">ORDER BY</span> SALE_DATE
+        ROWS <span class="kw">BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>) <span class="kw">AS</span> RUNNING_TOTAL
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- LAG / LEAD: Compare with previous/next row</span>
+<span class="kw">SELECT</span> CUST_ID, SALE_DATE, AMOUNT,
+    LAG(AMOUNT,<span class="num">1</span>,<span class="num">0</span>) <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> CUST_ID <span class="kw">ORDER BY</span> SALE_DATE) <span class="kw">AS</span> PREV_AMOUNT,
+    AMOUNT - LAG(AMOUNT,<span class="num">1</span>,<span class="num">0</span>) <span class="kw">OVER</span>(<span class="kw">PARTITION BY</span> CUST_ID <span class="kw">ORDER BY</span> SALE_DATE) <span class="kw">AS</span> DELTA
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- PERCENTILE / NTILE</span>
+<span class="kw">SELECT</span> CUST_ID, AMOUNT,
+    NTILE(<span class="num">4</span>) <span class="kw">OVER</span>(<span class="kw">ORDER BY</span> AMOUNT) <span class="kw">AS</span> QUARTILE
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT;</pre></div>
+    </div>
+  </div>
+
+  <!-- MACROS & SP -->
+  <div class="subcontent content-area" id="sql-macros-sp">
+    <div class="section-title">Macros &amp; Stored Procedures</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>Macros</h3>
+        <p>A macro is a saved SQL statement or series of statements with optional parameters. Executed with EXEC.</p>
+        <ul style="margin-top:8px">
+          <li>Compiled once, executed many times</li>
+          <li>Can contain multiple SQL statements</li>
+          <li>All statements run as a transaction</li>
+          <li>Supports input parameters</li>
+          <li>No conditional logic (use SP for that)</li>
+        </ul>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>Stored Procedures</h3>
+        <p>Procedural code that runs on Teradata server. Supports variables, loops, conditions, error handling.</p>
+        <ul style="margin-top:8px">
+          <li>Full procedural logic (IF/WHILE/FOR)</li>
+          <li>IN/OUT/INOUT parameters</li>
+          <li>Dynamic SQL execution</li>
+          <li>Error handling with CONDITION HANDLER</li>
+          <li>Used for complex ETL transformation logic</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Macro &amp; Stored Procedure Examples</span></div>
+      <div class="code-body"><pre><span class="cm">-- CREATE MACRO with parameter</span>
+<span class="kw">REPLACE MACRO</span> EDW_PROD.GET_CUST_SALES
+(<span class="var">p_cust_id</span> <span class="td">INTEGER</span>)
+<span class="kw">AS</span> (
+    <span class="kw">SELECT</span> SALE_DATE, AMOUNT, REGION_CD
+    <span class="kw">FROM</span> EDW_PROD.SALES_FACT
+    <span class="kw">WHERE</span> CUST_ID = :<span class="var">p_cust_id</span>
+    <span class="kw">ORDER BY</span> SALE_DATE <span class="kw">DESC</span>;
+);
+
+<span class="cm">-- Execute Macro</span>
+<span class="kw">EXEC</span> EDW_PROD.GET_CUST_SALES(<span class="num">12345</span>);
+
+<span class="cm">-- ─────────────────────────────────────────────</span>
+<span class="cm">-- CREATE STORED PROCEDURE</span>
+<span class="kw">REPLACE PROCEDURE</span> EDW_PROD.SP_LOAD_DAILY_SALES
+(<span class="kw">IN</span> <span class="var">p_load_date</span> <span class="td">DATE</span>,
+ <span class="kw">OUT</span> <span class="var">p_rows_loaded</span> <span class="td">INTEGER</span>)
+<span class="kw">BEGIN</span>
+    <span class="kw">DECLARE</span> <span class="var">v_count</span> <span class="td">INTEGER</span> <span class="kw">DEFAULT</span> <span class="num">0</span>;
+
+    <span class="cm">-- Delete existing data for the date</span>
+    <span class="kw">DELETE FROM</span> EDW_PROD.SALES_FACT
+    <span class="kw">WHERE</span> SALE_DATE = :<span class="var">p_load_date</span>;
+
+    <span class="cm">-- Insert from staging</span>
+    <span class="kw">INSERT INTO</span> EDW_PROD.SALES_FACT
+    <span class="kw">SELECT</span> * <span class="kw">FROM</span> EDW_STG.SALES_STG
+    <span class="kw">WHERE</span> LOAD_DATE = :<span class="var">p_load_date</span>;
+
+    <span class="kw">SELECT</span> COUNT(*) <span class="kw">INTO</span> :<span class="var">v_count</span>
+    <span class="kw">FROM</span> EDW_PROD.SALES_FACT
+    <span class="kw">WHERE</span> SALE_DATE = :<span class="var">p_load_date</span>;
+
+    <span class="kw">SET</span> :<span class="var">p_rows_loaded</span> = :<span class="var">v_count</span>;
+<span class="kw">END</span>;
+
+<span class="cm">-- Call Stored Procedure</span>
+<span class="kw">CALL</span> EDW_PROD.SP_LOAD_DAILY_SALES(<span class="td">DATE</span> - <span class="num">1</span>, <span class="var">rows_out</span>);</pre></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: ARCHITECTURE
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-architecture">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 03</div>
+    <h1>Architecture Deep Dive</h1>
+    <p>Master Primary Index design, data distribution, space management, and the Teradata optimizer. These topics dominate senior-level interviews.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-amber">● Intermediate</span>
+      <span class="meta-chip chip-red">4 Topics</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('arch','pi')">Primary Index</button>
+    <button class="subtab" onclick="switchSub('arch','distribution')">Data Distribution</button>
+    <button class="subtab" onclick="switchSub('arch','parsing')">Optimizer</button>
+    <button class="subtab" onclick="switchSub('arch','spool')">Space Management</button>
+  </div>
+
+  <div class="subcontent active content-area" id="arch-pi">
+    <div class="section-title">Primary Index — The Most Critical Design Decision</div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>The Golden Rule:</strong> Every table in Teradata MUST have a Primary Index. The PI determines which AMP stores each row. Choose wrong → data skew → slow queries.</div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>UPI — Unique Primary Index</h3>
+        <ul>
+          <li>No duplicate PI values allowed</li>
+          <li>Guarantees <strong>perfectly even distribution</strong></li>
+          <li>1 AMP access for PI-based lookups (fastest)</li>
+          <li>Best for dimension tables (CUST_ID, PROD_ID)</li>
+          <li>Use when column is already a natural unique key</li>
+        </ul>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>NUPI — Non-Unique Primary Index</h3>
+        <ul>
+          <li>Duplicate PI values allowed</li>
+          <li>May cause <strong>skew</strong> if low cardinality</li>
+          <li>Used for fact tables joined to dimensions</li>
+          <li>Choose high cardinality column(s) for even distribution</li>
+          <li>Example: CUST_ID on SALES_FACT (one customer → many sales)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-green">
+        <h3>PPI — Partitioned Primary Index</h3>
+        <ul>
+          <li>Adds partition elimination on top of PI</li>
+          <li>Best for large fact tables queried by date range</li>
+          <li>Query touches only relevant partitions — dramatic speed improvement</li>
+          <li>Usually: partition by month/year + PI on join column</li>
+          <li>Max 65,535 partitions per table</li>
+        </ul>
+      </div>
+      <div class="card card-accent-purple">
+        <h3>Secondary Indexes</h3>
+        <ul>
+          <li><strong>USI:</strong> Unique secondary index — creates subtable on every AMP. 2 AMP accesses.</li>
+          <li><strong>NUSI:</strong> Non-unique secondary index — bitmap index within AMP. Full AMP scan with filter.</li>
+          <li>Add index for frequently filtered non-PI columns</li>
+          <li>Trade-off: faster reads, slower DML (index maintained)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">PI Selection Criteria</div>
+    <table class="data-table">
+      <thead><tr><th>Criteria</th><th>Goal</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>High Cardinality</td><td>Even distribution across AMPs</td><td>CUST_ID (millions of values) ✅</td></tr>
+        <tr><td>Frequently Joined</td><td>Same PI on joined tables = no redistribution</td><td>Join SALES.CUST_ID → DIM.CUST_ID ✅</td></tr>
+        <tr><td>Not Frequently Updated</td><td>PI change = row moves to different AMP</td><td>Avoid STATUS_CD ❌</td></tr>
+        <tr><td>Low Skew</td><td>No "hot" AMPs overloaded</td><td>Avoid GENDER (only M/F) ❌</td></tr>
+        <tr><td>Query Access Pattern</td><td>PI in WHERE = 1 AMP access</td><td>Filter by CUST_ID daily ✅</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subcontent content-area" id="arch-distribution">
+    <div class="section-title">How Teradata Distributes Data</div>
+    <div class="step-list">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><strong>PI value extracted from row</strong><p>When a row is inserted, Teradata extracts the Primary Index column value(s)</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><strong>Hash function applied</strong><p>A 32-bit hash is computed on the PI value. Same PI value always produces same hash — deterministic.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><strong>Hash maps to AMP</strong><p>The hash is divided into buckets (DSW - Data Segment Wheel). Each AMP owns a range of buckets. Row goes to the AMP owning that bucket.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><strong>Row stored within AMP</strong><p>Within the AMP, rows are further sorted by row hash for efficient retrieval.</p></div></div>
+    </div>
+
+    <div class="section-title">Skew — The #1 Performance Killer</div>
+    <div class="grid-2">
+      <div class="card card-accent-red">
+        <h3>What is Skew?</h3>
+        <p>Skew occurs when data is <strong>unevenly distributed</strong> across AMPs. Some AMPs have significantly more rows than others.</p>
+        <p style="margin-top:8px">The slowest AMP determines query completion time — other AMPs wait idle while the hot AMP finishes.</p>
+      </div>
+      <div class="card card-accent-amber">
+        <h3>How to Detect Skew</h3>
+        <ul>
+          <li>Use EXPLAIN plan — check "skew" warnings</li>
+          <li>Check AMP distribution via system tables</li>
+          <li>Query: <code>HELP STATS tablename;</code></li>
+          <li>Viewpoint workload monitor shows hot AMPs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Check skew via system tables</span></div>
+      <div class="code-body"><pre><span class="cm">-- Check AMP-level row distribution</span>
+<span class="kw">SELECT</span>
+    <span class="td">HASHAMP</span>(HASHROW(CUST_ID)) <span class="kw">AS</span> AMP_NUM,
+    COUNT(*) <span class="kw">AS</span> ROW_COUNT
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">ORDER BY</span> <span class="num">2</span> <span class="kw">DESC</span>;
+
+<span class="cm">-- Skew factor query</span>
+<span class="kw">SELECT</span>
+    TABLENAME,
+    MAX(CURRENTPERM) <span class="kw">AS</span> MAX_AMP_PERM,
+    AVG(CURRENTPERM) <span class="kw">AS</span> AVG_AMP_PERM,
+    (MAX(CURRENTPERM) / AVG(CURRENTPERM) - <span class="num">1</span>) * <span class="num">100</span> <span class="kw">AS</span> SKEW_PCT
+<span class="kw">FROM</span> DBC.TABLESIZE
+<span class="kw">WHERE</span> DATABASENAME = <span class="str">'EDW_PROD'</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>
+<span class="kw">HAVING</span> SKEW_PCT > <span class="num">10</span>
+<span class="kw">ORDER BY</span> SKEW_PCT <span class="kw">DESC</span>;</pre></div>
+    </div>
+  </div>
+
+  <div class="subcontent content-area" id="arch-parsing">
+    <div class="section-title">Parsing Engine &amp; Optimizer</div>
+    <div class="card card-accent-amber">
+      <h3>How the Optimizer Works</h3>
+      <p>Teradata's cost-based optimizer (CBO) evaluates multiple execution plans and chooses the lowest-cost one based on:</p>
+      <ul style="margin-top:10px">
+        <li><strong>Statistics</strong> — Column value distribution, row counts, unique values</li>
+        <li><strong>Index information</strong> — PI, USI, NUSI availability</li>
+        <li><strong>Join order</strong> — Small table first in nested joins</li>
+        <li><strong>Join strategy</strong> — Row hash match, merge, hash, product</li>
+        <li><strong>Spool estimates</strong> — Intermediate result sizes</li>
+      </ul>
+    </div>
+    <div class="tip-box tip-red">
+      <div class="tip-icon">⚠️</div>
+      <div><strong>Without statistics, the optimizer guesses!</strong> Stale or missing statistics is the most common cause of bad execution plans. Always COLLECT STATS on join columns, filter columns, and PI columns.</div>
+    </div>
+  </div>
+
+  <div class="subcontent content-area" id="arch-spool">
+    <div class="section-title">Space Management</div>
+    <table class="data-table">
+      <thead><tr><th>Space Type</th><th>Purpose</th><th>Who Uses</th><th>Managed By</th></tr></thead>
+      <tbody>
+        <tr><td>PERM Space</td><td>Permanent table storage</td><td>Tables, indexes, views</td><td>DBA allocation per database/user</td></tr>
+        <tr><td>SPOOL Space</td><td>Intermediate query results, sort work</td><td>Active query sessions</td><td>DBA allocation per user</td></tr>
+        <tr><td>TEMP Space</td><td>Global Temporary Tables</td><td>GTT data</td><td>DBA allocation per user</td></tr>
+        <tr><td>Journal Space</td><td>Before/after images for recovery</td><td>DML operations</td><td>Automatic by Teradata</td></tr>
+      </tbody>
+    </table>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Space usage queries</span></div>
+      <div class="code-body"><pre><span class="cm">-- Check database space usage</span>
+<span class="kw">SELECT</span>
+    DATABASENAME,
+    SUM(MAXPERM)    / <span class="num">1024</span>**<span class="num">3</span> <span class="kw">AS</span> ALLOCATED_GB,
+    SUM(CURRENTPERM)/ <span class="num">1024</span>**<span class="num">3</span> <span class="kw">AS</span> USED_GB,
+    (SUM(MAXPERM) - SUM(CURRENTPERM)) / <span class="num">1024</span>**<span class="num">3</span> <span class="kw">AS</span> FREE_GB
+<span class="kw">FROM</span> DBC.DISKSPACE
+<span class="kw">WHERE</span> DATABASENAME = <span class="str">'EDW_PROD'</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>;
+
+<span class="cm">-- Check spool usage by session</span>
+<span class="kw">SELECT</span> USERNAME, SPOOLUSED/1e6 <span class="kw">AS</span> SPOOL_MB
+<span class="kw">FROM</span> DBC.SESSIONINFO
+<span class="kw">ORDER BY</span> <span class="num">2</span> <span class="kw">DESC</span>;
+
+<span class="cm">-- Grant space to a database</span>
+<span class="kw">MODIFY DATABASE</span> EDW_STG <span class="kw">AS</span>
+    PERM = <span class="num">200000000000</span>,    <span class="cm">-- 200GB</span>
+    SPOOL = <span class="num">50000000000</span>;   <span class="cm">-- 50GB</span></pre></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: PERFORMANCE
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-performance">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 04</div>
+    <h1>Performance Tuning</h1>
+    <p>Read EXPLAIN plans, collect statistics, detect and fix skew, and apply tuning strategies that separate senior engineers from juniors.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-red">● Advanced</span>
+      <span class="meta-chip chip-amber">4 Topics</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('perf','explain')">EXPLAIN Plan</button>
+    <button class="subtab" onclick="switchSub('perf','stats')">Collect Statistics</button>
+    <button class="subtab" onclick="switchSub('perf','skew')">Skew &amp; Optimization</button>
+    <button class="subtab" onclick="switchSub('perf','query-perf')">Query Tuning Tips</button>
+  </div>
+
+  <div class="subcontent active content-area" id="perf-explain">
+    <div class="section-title">Reading EXPLAIN Plans</div>
+    <div class="tip-box tip-cyan">
+      <div class="tip-icon">💡</div>
+      <div><strong>Prepend any SELECT with EXPLAIN to see the execution plan without running the query.</strong> This is your most powerful tuning tool in Teradata.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">EXPLAIN output interpretation</span></div>
+      <div class="code-body"><pre><span class="cm">-- To get explain plan, just prepend EXPLAIN:</span>
+<span class="kw">EXPLAIN</span>
+<span class="kw">SELECT</span> c.CUST_NAME, SUM(f.AMOUNT) <span class="kw">AS</span> TOTAL
+<span class="kw">FROM</span> EDW_PROD.SALES_FACT f
+<span class="kw">JOIN</span> EDW_PROD.CUST_DIM c <span class="kw">ON</span> f.CUST_ID = c.CUST_ID
+<span class="kw">WHERE</span> f.SALE_DATE >= <td>DATE</td> - <span class="num">30</span>
+<span class="kw">GROUP BY</span> <span class="num">1</span>;
+
+<span class="cm">/* Sample EXPLAIN output — what to look for:
+
+ 1) "We do an all-AMPs RETRIEVE step..."
+    → Full table scan. Expected for large fact tables.
+    → If unexpected, check if stats are collected.
+
+ 2) "...with a residual condition of..."
+    → Filter pushed down. Good.
+
+ 3) "...redistributing rows of [table] by hash code..."
+    → BYNET traffic! One table PI doesn't match join key.
+    → Consider changing PI or adding USI.
+
+ 4) "...with no residual conditions (confidence: high/low)..."
+    → "low" = optimizer is guessing = run COLLECT STATS!
+
+ 5) "Product Join"
+    → Cartesian product — usually unintentional! Fix immediately.
+
+ 6) "Estimated rows: 1 (no statistics available)"
+    → Missing stats = optimizer blindly guessing row counts.
+*/</span></pre></div>
+    </div>
+
+    <div class="section-title">EXPLAIN Key Terms</div>
+    <table class="data-table">
+      <thead><tr><th>Term in EXPLAIN</th><th>Meaning</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>all-AMPs RETRIEVE</td><td>Full table scan across all AMPs</td><td>Expected for large tables; add PPI if date-filtered</td></tr>
+        <tr><td>1-AMP RETRIEVE</td><td>Single AMP access via UPI/PI</td><td>✅ Best case — PI lookup</td></tr>
+        <tr><td>redistributing rows</td><td>BYNET data movement for join</td><td>Consider co-locating tables (same PI)</td></tr>
+        <tr><td>duplicating rows</td><td>Small table broadcast to all AMPs</td><td>✅ Good for small dimension tables</td></tr>
+        <tr><td>confidence: low</td><td>No statistics → optimizer guessing</td><td>RUN COLLECT STATS immediately</td></tr>
+        <tr><td>Product Join</td><td>Cartesian product (all combos)</td><td>Check join conditions! Usually a bug.</td></tr>
+        <tr><td>PARTITION ELIMINATION</td><td>PPI used, only some partitions scanned</td><td>✅ Great — PPI working correctly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subcontent content-area" id="perf-stats">
+    <div class="section-title">COLLECT STATISTICS</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Statistics collection patterns</span></div>
+      <div class="code-body"><pre><span class="cm">-- Full statistics on a table</span>
+<span class="kw">COLLECT STATISTICS</span> <span class="kw">ON</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- Specific column statistics (recommended)</span>
+<span class="kw">COLLECT STATISTICS</span>
+    COLUMN (CUST_ID),
+    COLUMN (SALE_DATE),
+    COLUMN (REGION_CD),
+    COLUMN (CUST_ID, SALE_DATE)  <span class="cm">-- multi-column stats</span>
+<span class="kw">ON</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- Index statistics</span>
+<span class="kw">COLLECT STATISTICS</span>
+    INDEX (CUST_ID)
+<span class="kw">ON</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- View existing statistics</span>
+<span class="kw">HELP STATISTICS</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- Drop statistics</span>
+<span class="kw">DROP STATISTICS</span>
+    COLUMN (REGION_CD)
+<span class="kw">ON</span> EDW_PROD.SALES_FACT;
+
+<span class="cm">-- When to collect stats:</span>
+<span class="cm">-- 1. After initial table creation and load</span>
+<span class="cm">-- 2. After major data changes (>10% change)</span>
+<span class="cm">-- 3. ALWAYS on PI columns, join columns, filter columns</span>
+<span class="cm">-- 4. After adding/dropping partitions</span></pre></div>
+    </div>
+  </div>
+
+  <div class="subcontent content-area" id="perf-skew">
+    <div class="section-title">Skew Detection &amp; Resolution</div>
+    <div class="grid-2">
+      <div class="card card-accent-red">
+        <h3>Symptoms of Skew</h3>
+        <ul>
+          <li>One AMP takes much longer than others</li>
+          <li>EXPLAIN shows uneven row estimates per AMP</li>
+          <li>CPU utilization shows hot AMPs in Viewpoint</li>
+          <li>Query runs fine on small data, slow on full data</li>
+        </ul>
+      </div>
+      <div class="card card-accent-green">
+        <h3>Resolution Strategies</h3>
+        <ul>
+          <li><strong>Change PI</strong> to higher-cardinality column</li>
+          <li><strong>Use composite PI</strong> — add 2nd column to PI</li>
+          <li><strong>Add PARTITION BY</strong> to distribute within AMP</li>
+          <li><strong>Use a hash banding column</strong> — artificial distribute column</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Interview answer for "How do you handle skew?":</strong> "First I confirm skew using the HASHAMP(HASHROW()) query or DBC.TABLESIZE. If NUPI choice is the root cause, I evaluate changing PI to a higher-cardinality column or using a composite PI. For tables that can't change PI, I consider NUSI or query-level workarounds like explicit redistribution hints."</div>
+    </div>
+  </div>
+
+  <div class="subcontent content-area" id="perf-query-perf">
+    <div class="section-title">Query Tuning Best Practices</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>✅ DO These</h3>
+        <ul>
+          <li>Filter early — push WHERE conditions as deep as possible</li>
+          <li>Join on PI columns when possible</li>
+          <li>Use Volatile Tables for large intermediate results</li>
+          <li>Collect stats on all join/filter columns</li>
+          <li>Use PPI for large date-ranged tables</li>
+          <li>COLLECT STATS after large data loads</li>
+          <li>Use SET tables to prevent duplicates</li>
+        </ul>
+      </div>
+      <div class="card card-accent-red">
+        <h3>❌ AVOID These</h3>
+        <ul>
+          <li>Functions on PI columns in WHERE: <code>CAST(id AS CHAR)</code></li>
+          <li>Implicit type conversions on join columns</li>
+          <li>SELECT * on large tables</li>
+          <li>Product Joins (missing join conditions)</li>
+          <li>Low-cardinality PI (gender, status_cd, Y/N columns)</li>
+          <li>Running without stats (optimizer guesses wrong)</li>
+          <li>Subqueries when join will do</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: TOOLS
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-tools">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 05</div>
+    <h1>Tools &amp; Utilities</h1>
+    <p>Master every Teradata utility — BTEQ, FastLoad, MultiLoad, TPT, and client tools. These are what you use daily in production.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-amber">● Intermediate → Advanced</span>
+      <span class="meta-chip chip-cyan">5 Tools</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('tools','bteq')">BTEQ</button>
+    <button class="subtab" onclick="switchSub('tools','fastload')">FastLoad</button>
+    <button class="subtab" onclick="switchSub('tools','multiload')">MultiLoad</button>
+    <button class="subtab" onclick="switchSub('tools','tpt')">TPT</button>
+    <button class="subtab" onclick="switchSub('tools','tdstudio')">TD Studio &amp; Viewpoint</button>
+  </div>
+
+  <!-- BTEQ -->
+  <div class="subcontent active content-area" id="tools-bteq">
+    <div class="section-title">BTEQ — Batch Teradata Query</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>What is BTEQ?</h3>
+        <p>BTEQ (Batch Teradata Query) is Teradata's primary command-line interface for submitting SQL, running ETL scripts, importing/exporting data, and scripting automation.</p>
+        <p style="margin-top:8px">In production, nearly all scheduled Teradata jobs run through BTEQ scripts called from Unix shell scripts.</p>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>BTEQ Capabilities</h3>
+        <ul>
+          <li>Execute any Teradata SQL</li>
+          <li>Conditional logic (.IF / .GOTO)</li>
+          <li>Error handling via ERRORCODE</li>
+          <li>Data export to flat files</li>
+          <li>Data import from flat files</li>
+          <li>Format output (HTML, CSV, etc.)</li>
+          <li>Run from Unix/Windows shell</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">BTEQ Commands Reference</div>
+    <table class="data-table">
+      <thead><tr><th>Command</th><th>Purpose</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>.LOGON</td><td>Connect to Teradata</td><td><code>.LOGON host/user,pass;</code></td></tr>
+        <tr><td>.LOGOFF</td><td>Disconnect</td><td><code>.LOGOFF;</code></td></tr>
+        <tr><td>.QUIT</td><td>Exit BTEQ with return code</td><td><code>.QUIT 0;</code></td></tr>
+        <tr><td>.IF/.GOTO</td><td>Conditional execution</td><td><code>.IF ERRORCODE &lt;&gt; 0 THEN .GOTO ERR;</code></td></tr>
+        <tr><td>.EXPORT</td><td>Write results to file</td><td><code>.EXPORT FILE=out.txt;</code></td></tr>
+        <tr><td>.IMPORT</td><td>Read data from file</td><td><code>.IMPORT VARTEXT '|' FILE=in.txt;</code></td></tr>
+        <tr><td>.SET MAXERROR</td><td>Max errors before abort</td><td><code>.SET MAXERROR 1;</code></td></tr>
+        <tr><td>.SET SEPARATOR</td><td>Column delimiter for export</td><td><code>.SET SEPARATOR '|';</code></td></tr>
+        <tr><td>.LABEL</td><td>Define goto label</td><td><code>.LABEL ERR;</code></td></tr>
+        <tr><td>.REMARK</td><td>Print message to log</td><td><code>.REMARK 'Step 1 done';</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">BTEQ</span><span class="code-file-tag">Production-grade BTEQ script pattern</span></div>
+      <div class="code-body"><pre><span class="cm">/* =============================================
+   BTEQ Script: Load Daily Sales
+   Author: Gulshan
+   ============================================= */</span>
+
+.LOGON tdprod01/etl_user,${TD_PASSWORD};
+.IF ERRORCODE <> <span class="num">0</span> THEN .GOTO LOGON_FAIL;
+
+<span class="cm">/* Step 1: Truncate staging */</span>
+.REMARK <span class="str">'Step 1: Truncating staging table'</span>;
+<span class="kw">DELETE FROM</span> EDW_STG.SALES_STG <span class="kw">ALL</span>;
+.IF ERRORCODE <> <span class="num">0</span> THEN .GOTO STEP_FAIL;
+
+<span class="cm">/* Step 2: Import from flat file */</span>
+.REMARK <span class="str">'Step 2: Importing source file'</span>;
+.IMPORT VARTEXT <span class="str">'|'</span> FILE=/data/incoming/sales.txt
+SKIP <span class="num">1</span>                           <span class="cm">/* skip header row */</span>
+USING (
+    SALE_ID     INTEGER,
+    CUST_ID     INTEGER,
+    SALE_DATE   CHAR(<span class="num">10</span>),
+    AMOUNT      DECIMAL(<span class="num">12</span>,<span class="num">2</span>),
+    REGION_CD   CHAR(<span class="num">3</span>)
+)
+<span class="kw">INSERT INTO</span> EDW_STG.SALES_STG
+VALUES (:SALE_ID, :CUST_ID, :SALE_DATE, :AMOUNT, :REGION_CD);
+.IF ERRORCODE <> <span class="num">0</span> THEN .GOTO STEP_FAIL;
+
+<span class="cm">/* Step 3: Transform to fact */</span>
+.REMARK <span class="str">'Step 3: Inserting into SALES_FACT'</span>;
+<span class="kw">INSERT INTO</span> EDW_PROD.SALES_FACT
+<span class="kw">SELECT</span> SALE_ID, CUST_ID, PROD_ID,
+       <span class="kw">CAST</span>(SALE_DATE <span class="kw">AS DATE FORMAT</span> <span class="str">'YYYY-MM-DD'</span>),
+       AMOUNT, REGION_CD, <span class="td">DATE</span>
+<span class="kw">FROM</span> EDW_STG.SALES_STG;
+.IF ERRORCODE <> <span class="num">0</span> THEN .GOTO STEP_FAIL;
+
+<span class="cm">/* Success */</span>
+.REMARK <span class="str">'All steps completed successfully'</span>;
+.LOGOFF;
+.QUIT <span class="num">0</span>;
+
+<span class="cm">/* Error handlers */</span>
+.LABEL STEP_FAIL;
+.REMARK <span class="str">'Step failed! ERRORCODE='</span> ||ERRORCODE;
+.LOGOFF;
+.QUIT <span class="num">8</span>;
+
+.LABEL LOGON_FAIL;
+.REMARK <span class="str">'Logon failed!'</span>;
+.QUIT <span class="num">12</span>;</pre></div>
+    </div>
+  </div>
+
+  <!-- FASTLOAD -->
+  <div class="subcontent content-area" id="tools-fastload">
+    <div class="section-title">FastLoad</div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>FastLoad Overview</h3>
+        <ul>
+          <li>Bulk load utility for <strong>empty tables only</strong></li>
+          <li>Bypasses transient journal — no row-by-row logging</li>
+          <li>Best throughput for initial loads or truncate+reload</li>
+          <li>Cannot load to tables with secondary indexes (drop first)</li>
+          <li>Uses 2 phases: acquisition phase + application phase</li>
+          <li>Creates 2 error tables (ET and UV tables)</li>
+        </ul>
+      </div>
+      <div class="card card-accent-red">
+        <h3>FastLoad Restrictions</h3>
+        <ul>
+          <li>❌ Table must be EMPTY before loading</li>
+          <li>❌ No secondary indexes on target table</li>
+          <li>❌ No JOIN indexes allowed</li>
+          <li>❌ No triggers on target table</li>
+          <li>❌ No referential integrity constraints</li>
+          <li>✅ Drop indexes before → recreate after load</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">FastLoad</span><span class="code-file-tag">FastLoad script structure</span></div>
+      <div class="code-body"><pre><span class="cm">/* FastLoad Script: load_sales.fl */</span>
+LOGON tdprod01/etl_user,passwd;
+
+<span class="cm">/* Define error tables */</span>
+BEGIN LOADING EDW_STG.SALES_FL_STG
+    ERRORFILES EDW_STG.SALES_FL_ET, EDW_STG.SALES_FL_UV
+    CHECKPOINT <span class="num">50000</span>;           <span class="cm">/* restart checkpoint every 50k rows */</span>
+
+<span class="cm">/* Define input file layout */</span>
+DEFINE
+    SALE_ID     (INTEGER),
+    CUST_ID     (INTEGER),
+    SALE_DATE   (CHAR(<span class="num">10</span>)),
+    AMOUNT      (FLOAT),
+    REGION_CD   (CHAR(<span class="num">3</span>))
+FILE=/data/incoming/sales_bulk.dat;
+
+<span class="cm">/* Insert statement */</span>
+INSERT INTO EDW_STG.SALES_FL_STG (
+    SALE_ID, CUST_ID,
+    CAST(:SALE_DATE AS DATE FORMAT <span class="str">'YYYY-MM-DD'</span>),
+    :AMOUNT, :REGION_CD
+);
+
+END LOADING;
+LOGOFF;</pre></div>
+    </div>
+  </div>
+
+  <!-- MULTILOAD -->
+  <div class="subcontent content-area" id="tools-multiload">
+    <div class="section-title">MultiLoad</div>
+    <div class="grid-2">
+      <div class="card card-accent-cyan">
+        <h3>MultiLoad Overview</h3>
+        <ul>
+          <li>Loads data into <strong>non-empty tables</strong></li>
+          <li>Supports INSERT, UPDATE, DELETE, UPSERT</li>
+          <li>Can process multiple tables in one run</li>
+          <li>Best for incremental delta loads</li>
+          <li>Uses work tables and error tables</li>
+          <li>Slower than FastLoad but more flexible</li>
+          <li>5 phases: Preliminary → DML Transaction → Acquisition → Application → Cleanup</li>
+        </ul>
+      </div>
+      <div class="card card-accent-green">
+        <h3>FastLoad vs MultiLoad vs TPT</h3>
+        <ul>
+          <li><strong>FastLoad</strong>: Empty tables, highest speed</li>
+          <li><strong>MultiLoad</strong>: Non-empty, DML operations, delta loads</li>
+          <li><strong>TPT</strong>: Modern successor, combines all — use for new scripts</li>
+          <li><strong>BTEQ IMPORT</strong>: Small files, full flexibility</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TPT -->
+  <div class="subcontent content-area" id="tools-tpt">
+    <div class="section-title">TPT — Teradata Parallel Transporter</div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🚄</div>
+      <div><strong>TPT is the modern replacement for FastLoad, MultiLoad, and BTEQ exports.</strong> It uses a streaming operator model and is the recommended utility for new development.</div>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>TPT Operators</h3>
+        <ul>
+          <li><strong>Load Operator</strong> — Replaces FastLoad</li>
+          <li><strong>Update Operator</strong> — Replaces MultiLoad</li>
+          <li><strong>Export Operator</strong> — High-speed export</li>
+          <li><strong>Stream Operator</strong> — Real-time/micro-batch inserts</li>
+          <li><strong>DataConnector</strong> — File I/O operator</li>
+          <li><strong>DDL Operator</strong> — Create/drop tables</li>
+        </ul>
+      </div>
+      <div class="card card-accent-cyan">
+        <h3>TPT Advantages</h3>
+        <ul>
+          <li>Single unified scripting language (TBUILD)</li>
+          <li>Parallel execution of operators</li>
+          <li>Supports cloud (S3, Azure Blob) directly</li>
+          <li>Better error handling and restart</li>
+          <li>Used in Azure Data Factory Teradata connector</li>
+        </ul>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">TPT</span><span class="code-file-tag">TPT Load script (replaces FastLoad)</span></div>
+      <div class="code-body"><pre><span class="cm">/* TPT Load Script */</span>
+DEFINE JOB LOAD_SALES_JOB
+DESCRIPTION <span class="str">'Load sales data to Teradata'</span>
+(
+    DEFINE SCHEMA SALES_SCHEMA
+    (
+        SALE_ID   INTEGER,
+        CUST_ID   INTEGER,
+        SALE_DATE CHAR(<span class="num">10</span>),
+        AMOUNT    FLOAT,
+        REGION    CHAR(<span class="num">3</span>)
+    );
+
+    DEFINE OPERATOR FILE_READER
+    TYPE DATACONNECTOR PRODUCER
+    SCHEMA SALES_SCHEMA
+    ATTRIBUTES
+    (
+        VARCHAR FileName = <span class="str">'/data/sales.csv'</span>,
+        VARCHAR TextDelimiter = <span class="str">','</span>,
+        VARCHAR Format = <span class="str">'Delimited'</span>,
+        VARCHAR OpenMode = <span class="str">'Read'</span>
+    );
+
+    DEFINE OPERATOR TD_LOADER
+    TYPE LOAD
+    SCHEMA SALES_SCHEMA
+    ATTRIBUTES
+    (
+        VARCHAR TdpId       = <span class="str">'tdprod01'</span>,
+        VARCHAR UserName    = <span class="str">'etl_user'</span>,
+        VARCHAR UserPassword = <span class="str">'${TD_PASSWORD}'</span>,
+        VARCHAR TargetTable = <span class="str">'EDW_STG.SALES_STG'</span>,
+        VARCHAR LogTable    = <span class="str">'EDW_STG.SALES_LOG'</span>
+    );
+
+    STEP LOAD_STEP
+    (
+        APPLY
+        (<span class="str">'INSERT INTO EDW_STG.SALES_STG VALUES(
+            :SALE_ID, :CUST_ID, :SALE_DATE, :AMOUNT, :REGION);'</span>)
+        TO OPERATOR (TD_LOADER[<span class="num">4</span>])  <span class="cm">/* 4 parallel instances */</span>
+        SELECT * FROM OPERATOR (FILE_READER[<span class="num">1</span>]);
+    );
+);</pre></div>
+    </div>
+  </div>
+
+  <!-- TD STUDIO -->
+  <div class="subcontent content-area" id="tools-tdstudio">
+    <div class="section-title">Teradata Studio &amp; Viewpoint</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">🖥️</div>
+        <div class="tool-name">Teradata Studio</div>
+        <div class="tool-full-name">Eclipse-based SQL IDE</div>
+        <div class="tool-desc">The primary GUI tool for Teradata developers. Write SQL, browse object trees, view table structures, and analyze query plans.</div>
+        <div class="tool-features">
+          <div class="tool-feature">SQL editor with syntax highlighting</div>
+          <div class="tool-feature">Database/table/view explorer</div>
+          <div class="tool-feature">Visual EXPLAIN plan viewer</div>
+          <div class="tool-feature">Import/Export wizard</div>
+          <div class="tool-feature">Multiple connection profiles</div>
+        </div>
+        <div class="tool-use-case">🎯 Daily SQL development, ad-hoc queries, debugging</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">Viewpoint</div>
+        <div class="tool-full-name">Web-based monitoring portal</div>
+        <div class="tool-desc">Teradata's web dashboard for monitoring system health, active queries, resource usage, and workload management.</div>
+        <div class="tool-features">
+          <div class="tool-feature">Real-time session monitoring</div>
+          <div class="tool-feature">AMP CPU/disk utilization</div>
+          <div class="tool-feature">Query cancellation/priority changes</div>
+          <div class="tool-feature">Workload designer (TASM)</div>
+          <div class="tool-feature">Historical performance trends</div>
+        </div>
+        <div class="tool-use-case">🎯 Production monitoring, killing stuck jobs, capacity planning</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🔧</div>
+        <div class="tool-name">TDGSS</div>
+        <div class="tool-full-name">Teradata GSS &amp; Security</div>
+        <div class="tool-desc">Security framework for Teradata. Manages authentication, roles, profiles, and access controls for the system.</div>
+        <div class="tool-features">
+          <div class="tool-feature">LDAP integration</div>
+          <div class="tool-feature">Role-based access control</div>
+          <div class="tool-feature">Row-level security (RLS)</div>
+          <div class="tool-feature">Column-level security</div>
+        </div>
+        <div class="tool-use-case">🎯 Security audits, access provisioning, compliance</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📦</div>
+        <div class="tool-name">Teradata QueryGrid</div>
+        <div class="tool-full-name">Cross-system query federation</div>
+        <div class="tool-desc">Allows Teradata to query data from Hadoop, Hive, Presto, Oracle, and other systems using foreign tables — without moving data.</div>
+        <div class="tool-features">
+          <div class="tool-feature">Query Hadoop/Hive from Teradata SQL</div>
+          <div class="tool-feature">Pushdown optimization</div>
+          <div class="tool-feature">Cross-system joins</div>
+          <div class="tool-feature">Data movement (import/export)</div>
+        </div>
+        <div class="tool-use-case">🎯 Hybrid cloud architectures, migration transitional setups</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: ADVANCED
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-advanced">
+  <div class="section-hero">
+    <div class="hero-eyebrow">Module 06</div>
+    <h1>Advanced Topics</h1>
+    <p>SCD implementations, temporal tables, security, and cloud migration strategies. Senior-level topics that show deep expertise.</p>
+    <div class="hero-meta">
+      <span class="meta-chip chip-red">● Advanced</span>
+      <span class="meta-chip chip-amber">4 Topics</span>
+    </div>
+  </div>
+
+  <div class="subtab-bar">
+    <button class="subtab active" onclick="switchSub('adv','scd')">SCD Types</button>
+    <button class="subtab" onclick="switchSub('adv','temporal')">Temporal Tables</button>
+    <button class="subtab" onclick="switchSub('adv','tdgss-security')">Security</button>
+    <button class="subtab" onclick="switchSub('adv','migration')">Cloud Migration</button>
+  </div>
+
+  <!-- SCD -->
+  <div class="subcontent active content-area" id="adv-scd">
+    <div class="section-title">Slowly Changing Dimensions (SCD)</div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Most asked advanced interview topic!</strong> Know SCD Type 1, 2, and 3 cold — especially the SQL to implement Type 2.</div>
+    </div>
+    <div class="grid-3">
+      <div class="card card-accent-green">
+        <h3>SCD Type 1 — Overwrite</h3>
+        <p>Simply UPDATE the existing record. No history kept. Use when history doesn't matter.</p>
+        <div class="tag-list"><span class="tag chip-green">Simplest</span><span class="tag chip-amber">No History</span></div>
+      </div>
+      <div class="card card-accent-amber">
+        <h3>SCD Type 2 — Full History</h3>
+        <p>Add a NEW row with new values. Mark old row as expired. Full change history preserved.</p>
+        <div class="tag-list"><span class="tag chip-amber">Most Common</span><span class="tag chip-red">Complex SQL</span></div>
+      </div>
+      <div class="card card-accent-purple">
+        <h3>SCD Type 3 — Limited History</h3>
+        <p>Add columns: CURRENT_VAL and PREVIOUS_VAL. Only keeps 1 prior value.</p>
+        <div class="tag-list"><span class="tag chip-purple">Limited Use</span><span class="tag chip-cyan">Simple</span></div>
+      </div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">SCD Type 2 Implementation</span></div>
+      <div class="code-body"><pre><span class="cm">-- SCD Type 2: CUST_DIM structure</span>
+<span class="kw">CREATE SET TABLE</span> EDW_PROD.CUST_DIM
+(
+    CUST_SK       <span class="td">INTEGER</span> <span class="kw">NOT NULL</span>,    <span class="cm">-- surrogate key</span>
+    CUST_ID       <span class="td">INTEGER</span> <span class="kw">NOT NULL</span>,    <span class="cm">-- natural/business key</span>
+    CUST_NAME     <span class="td">VARCHAR</span>(<span class="num">100</span>),
+    CITY          <span class="td">VARCHAR</span>(<span class="num">50</span>),
+    SEGMENT       <span class="td">CHAR</span>(<span class="num">10</span>),
+    EFF_FROM_DT   <span class="td">DATE</span> <span class="kw">NOT NULL</span>,       <span class="cm">-- when this version became active</span>
+    EFF_TO_DT     <span class="td">DATE</span>,                <span class="cm">-- NULL = current record</span>
+    IS_CURRENT    <span class="td">CHAR</span>(<span class="num">1</span>) <span class="kw">DEFAULT</span> <span class="str">'Y'</span>  <span class="cm">-- Y = active, N = expired</span>
+) <span class="kw">PRIMARY INDEX</span> (CUST_ID);
+
+<span class="cm">-- Step 1: Expire changed records</span>
+<span class="kw">UPDATE</span> tgt
+<span class="kw">FROM</span> EDW_PROD.CUST_DIM tgt,
+     EDW_STG.CUST_STG  src
+<span class="kw">SET</span>
+    tgt.EFF_TO_DT  = <span class="td">DATE</span> - <span class="num">1</span>,
+    tgt.IS_CURRENT = <span class="str">'N'</span>
+<span class="kw">WHERE</span>
+    tgt.CUST_ID    = src.CUST_ID
+    <span class="kw">AND</span> tgt.IS_CURRENT = <span class="str">'Y'</span>
+    <span class="kw">AND</span> (tgt.CITY <> src.CITY <span class="kw">OR</span> tgt.SEGMENT <> src.SEGMENT);  <span class="cm">-- changed</span>
+
+<span class="cm">-- Step 2: Insert new version for changed + new customers</span>
+<span class="kw">INSERT INTO</span> EDW_PROD.CUST_DIM
+    (CUST_SK, CUST_ID, CUST_NAME, CITY, SEGMENT, EFF_FROM_DT, EFF_TO_DT, IS_CURRENT)
+<span class="kw">SELECT</span>
+    NEXT_SK(),                  <span class="cm">-- generate new surrogate key</span>
+    src.CUST_ID,
+    src.CUST_NAME,
+    src.CITY,
+    src.SEGMENT,
+    <span class="td">DATE</span>,                       <span class="cm">-- effective from today</span>
+    <span class="kw">NULL</span>,                       <span class="cm">-- still current, no end date</span>
+    <span class="str">'Y'</span>
+<span class="kw">FROM</span> EDW_STG.CUST_STG src
+<span class="kw">WHERE NOT EXISTS</span> (             <span class="cm">-- no current matching record = new or just expired</span>
+    <span class="kw">SELECT</span> <span class="num">1</span> <span class="kw">FROM</span> EDW_PROD.CUST_DIM tgt
+    <span class="kw">WHERE</span> tgt.CUST_ID = src.CUST_ID
+      <span class="kw">AND</span> tgt.IS_CURRENT = <span class="str">'Y'</span>
+);</pre></div>
+    </div>
+  </div>
+
+  <!-- TEMPORAL -->
+  <div class="subcontent content-area" id="adv-temporal">
+    <div class="section-title">Temporal Tables</div>
+    <div class="card card-accent-cyan">
+      <h3>What are Temporal Tables?</h3>
+      <p>Teradata natively supports <strong>bitemporal tables</strong> — tables that track both <em>valid time</em> (when a fact was true in the real world) and <em>transaction time</em> (when it was recorded in the database). This eliminates complex SCD-2 code.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card card-accent-amber">
+        <h3>Valid Time</h3>
+        <p>When something was true in the real world. "John lived in Mumbai from 2020 to 2022."</p>
+        <p style="margin-top:6px">Defined with <code>VALIDTIME</code> period columns.</p>
+      </div>
+      <div class="card card-accent-green">
+        <h3>Transaction Time</h3>
+        <p>When data was stored in the database. "This record was inserted on 2020-01-15 and was never corrected."</p>
+        <p style="margin-top:6px">Defined with <code>TRANSACTIONTIME</code> system period.</p>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Temporal table creation and query</span></div>
+      <div class="code-body"><pre><span class="cm">-- Create a ValidTime temporal table</span>
+<span class="kw">CREATE TABLE</span> EDW_PROD.CUST_TEMPORAL
+(
+    CUST_ID   <span class="td">INTEGER</span> <span class="kw">NOT NULL</span>,
+    CUST_NAME <span class="td">VARCHAR</span>(<span class="num">100</span>),
+    CITY      <span class="td">VARCHAR</span>(<span class="num">50</span>),
+    VT        <span class="td">PERIOD</span>(<span class="td">DATE</span>) <span class="kw">NOT NULL AS VALIDTIME</span>
+) <span class="kw">PRIMARY INDEX</span> (CUST_ID);
+
+<span class="cm">-- Sequenced insert: valid for a period</span>
+<span class="kw">SEQUENCED VALIDTIME PERIOD FOR VT</span>(<span class="str">'2024-01-01'</span>, <span class="str">'2025-01-01'</span>)
+<span class="kw">INSERT INTO</span> EDW_PROD.CUST_TEMPORAL (CUST_ID, CUST_NAME, CITY)
+<span class="kw">VALUES</span> (<span class="num">1001</span>, <span class="str">'John Smith'</span>, <span class="str">'Mumbai'</span>);
+
+<span class="cm">-- Query as-of a specific date</span>
+<span class="kw">VALIDTIME AS OF DATE</span> <span class="str">'2024-06-15'</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> EDW_PROD.CUST_TEMPORAL
+<span class="kw">WHERE</span> CUST_ID = <span class="num">1001</span>;
+
+<span class="cm">-- Temporal UPDATE: automatically expires old, inserts new version</span>
+<span class="kw">SEQUENCED VALIDTIME</span>
+<span class="kw">UPDATE</span> EDW_PROD.CUST_TEMPORAL
+<span class="kw">SET</span> CITY = <span class="str">'Bengaluru'</span>
+<span class="kw">WHERE</span> CUST_ID = <span class="num">1001</span>;</pre></div>
+    </div>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="subcontent content-area" id="adv-tdgss-security">
+    <div class="section-title">Security &amp; Access Control</div>
+    <div class="code-wrap">
+      <div class="code-header"><span class="code-lang-tag">Teradata SQL</span><span class="code-file-tag">Users, Roles, Grants</span></div>
+      <div class="code-body"><pre><span class="cm">-- Create user</span>
+<span class="kw">CREATE USER</span> etl_analyst
+    FROM HR_MANAGER                    <span class="cm">-- parent database</span>
+    AS PASSWORD = TempPass123!
+    PERM = <span class="num">5000000000</span>               <span class="cm">-- 5GB permanent space</span>
+    SPOOL = <span class="num">10000000000</span>;            <span class="cm">-- 10GB spool</span>
+
+<span class="cm">-- Create role</span>
+<span class="kw">CREATE ROLE</span> EDW_READ_ROLE;
+
+<span class="cm">-- Grant SELECT on database to role</span>
+<span class="kw">GRANT SELECT ON</span> EDW_PROD <span class="kw">TO</span> EDW_READ_ROLE;
+<span class="kw">GRANT SELECT ON</span> EDW_STG  <span class="kw">TO</span> EDW_READ_ROLE;
+
+<span class="cm">-- Grant specific privileges</span>
+<span class="kw">GRANT INSERT, UPDATE, DELETE ON</span> EDW_STG.SALES_STG <span class="kw">TO</span> ETL_WRITE_ROLE;
+
+<span class="cm">-- Assign role to user</span>
+<span class="kw">GRANT</span> EDW_READ_ROLE <span class="kw">TO</span> etl_analyst;
+
+<span class="cm">-- Revoke</span>
+<span class="kw">REVOKE INSERT ON</span> EDW_PROD.SALES_FACT <span class="kw">FROM</span> etl_analyst;
+
+<span class="cm">-- View user's privileges</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> DBC.ALLRIGHTS
+<span class="kw">WHERE</span> GRANTEE = <span class="str">'etl_analyst'</span>;</pre></div>
+    </div>
+  </div>
+
+  <!-- MIGRATION -->
+  <div class="subcontent content-area" id="adv-migration">
+    <div class="section-title">Cloud Migration — Teradata to Snowflake</div>
+    <div class="tip-box tip-cyan">
+      <div class="tip-icon">☁️</div>
+      <div><strong>Hot topic in 2024-25!</strong> Many enterprises are migrating Teradata EDW to cloud platforms. Understanding the migration process makes you a bridge between legacy and cloud.</div>
+    </div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead><tr><th>Teradata Concept</th><th>Snowflake Equivalent</th><th>Migration Note</th></tr></thead>
+        <tbody>
+          <tr><td>BTEQ scripts</td><td>SnowSQL / Python scripts</td><td>Rewrite required — .LOGON, .IF, .QUIT syntax gone</td></tr>
+          <tr><td>FastLoad / TPT</td><td>COPY INTO command / Snowpipe</td><td>File format definitions change</td></tr>
+          <tr><td>Primary Index</td><td>Clustering Keys</td><td>No equivalent hashing — different paradigm</td></tr>
+          <tr><td>PPI</td><td>Micro-partitions (automatic)</td><td>Snowflake auto-partitions; add cluster keys for large tables</td></tr>
+          <tr><td>Volatile Tables</td><td>Temporary Tables</td><td>Syntax different — CREATE TEMPORARY TABLE</td></tr>
+          <tr><td>QUALIFY</td><td>QUALIFY (Snowflake supports it!)</td><td>✅ No change needed</td></tr>
+          <tr><td>DATE arithmetic (DATE-1)</td><td>DATEADD(day,-1,CURRENT_DATE)</td><td>Must rewrite all date expressions</td></tr>
+          <tr><td>COLLECT STATS</td><td>Automatic (no manual action)</td><td>✅ Snowflake maintains stats automatically</td></tr>
+          <tr><td>Macros</td><td>Stored Procedures / Tasks</td><td>Rewrite in JavaScript/Python SP</td></tr>
+          <tr><td>PERM/SPOOL Space</td><td>Virtual warehouse (auto-scales)</td><td>No manual space management</td></tr>
+          <tr><td>TOP N</td><td>LIMIT N</td><td>Simple keyword swap</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-amber">
+      <div class="tip-icon">🎯</div>
+      <div><strong>Resume strength:</strong> "I worked on a Teradata-to-Snowflake migration covering 500+ ETL objects. Key activities: SQL translation (BTEQ → Python+SnowSQL), data validation using row count + hash checksum reconciliation, PI design to cluster key analysis, and FastLoad → Snowpipe pipeline re-engineering."</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL: QUERY LAB
+════════════════════════════════════════════════════════ -->
+<div class="panel" id="panel-query">
+
+  <!-- Row 1: Mode toggle + status -->
+  <div class="qp-metabar">
+    <span class="qp-title">⚡ QUERY LAB</span>
+
+    <div class="qp-mode-toggle">
+      <button class="mode-btn active" onclick="setMode('sql')" id="mode-sql">🗄️ TD SQL</button>
+      <button class="mode-btn" onclick="setMode('bteq')" id="mode-bteq">💻 BTEQ</button>
+    </div>
+
+    <span class="result-status status-idle" id="result-status">IDLE</span>
+    <span id="exec-time"></span>
+  </div>
+
+  <!-- Row 2: Snippet ribbon -->
+  <div class="qp-snippets-bar">
+    <span class="qp-snippets-label">SQL:</span>
+    <button class="snap-btn" onclick="loadSnippet('select_basic')">📋 Basic SELECT</button>
+    <button class="snap-btn" onclick="loadSnippet('analytics')">📊 Analytics</button>
+    <button class="snap-btn" onclick="loadSnippet('qualify')">🎯 QUALIFY</button>
+    <button class="snap-btn" onclick="loadSnippet('cte')">🔗 CTE</button>
+    <button class="snap-btn" onclick="loadSnippet('merge')">🔄 MERGE</button>
+    <button class="snap-btn" onclick="loadSnippet('scd2')">🕒 SCD Type 2</button>
+    <button class="snap-btn" onclick="loadSnippet('volatile')">📦 Volatile Table</button>
+    <button class="snap-btn" onclick="loadSnippet('date_arith')">📅 Date Math</button>
+    <button class="snap-btn" onclick="loadSnippet('explain')">🔬 EXPLAIN</button>
+    <button class="snap-btn" onclick="loadSnippet('collect_stats')">📈 COLLECT STATS</button>
+    <button class="snap-btn" onclick="loadSnippet('pi_design')">🗝️ PI/Skew Check</button>
+    <button class="snap-btn" onclick="loadSnippet('skew_check')">⚠️ Skew Detection</button>
+    <span class="qp-snippets-label" style="margin-left:6px">BTEQ:</span>
+    <button class="snap-btn bteq-type" onclick="loadSnippet('bteq')">💻 BTEQ Script</button>
+    <button class="snap-btn bteq-type" onclick="loadSnippet('fastload')">⚡ FastLoad</button>
+  </div>
+
+  <!-- Row 3: Action bar -->
+  <div class="qp-actionbar">
+    <button class="qp-btn btn-run" onclick="runQuery()">▶ Run &nbsp;<kbd style="font-size:0.65rem;opacity:0.7">Ctrl+↵</kbd></button>
+    <button class="qp-btn btn-clear" onclick="clearEditor()">⊘ Clear</button>
+    <button class="qp-btn btn-copy" onclick="copyQuery()">⧉ Copy</button>
+    <span class="qp-hint">Ctrl+Enter to run &nbsp;|&nbsp; Tab to indent</span>
+  </div>
+
+  <!-- Row 4: Editor + Output workspace -->
+  <div class="qp-workspace">
+
+    <!-- Left: Editor -->
+    <div class="qp-editor-pane">
+      <div class="qp-pane-header">
+        <span class="qp-pane-label" id="editor-mode-label">MODE: Teradata SQL</span>
+        <span id="line-count">Lines: 0 | Chars: 0</span>
+      </div>
+      <textarea id="query-editor" spellcheck="false"
+        placeholder="-- Write Teradata SQL or BTEQ script here
+-- Pick a snippet above or type freely
+-- Ctrl+Enter to run
+
+SELECT TOP 10 * FROM EDW_PROD.SALES_FACT;"
+        oninput="updateEditorStats()"></textarea>
+    </div>
+
+    <!-- Right: Output + Quick Ref -->
+    <div class="qp-output-pane">
+      <div class="qp-pane-header">
+        <span class="qp-pane-label output-label">OUTPUT</span>
+        <span id="exec-time-inline" style="font-family:var(--mono);font-size:0.62rem;color:var(--text3)"></span>
+      </div>
+
+      <div id="query-output">
+        <div class="output-line out-info">-- Teradata Query Lab Ready</div>
+        <div class="output-line" style="color:var(--text3)">-- Simulated execution environment</div>
+        <div class="output-line" style="color:var(--text3)">-- TD SQL and BTEQ both supported</div>
+        <div class="output-line" style="color:var(--text3)">-- Pick a snippet or write your own ▶</div>
+      </div>
+
+      <div class="qp-ref-panel">
+        <div class="qp-ref-title">Quick Reference</div>
+        <div class="ref-item" onclick="loadSnippet('select_basic')">📋 Basic SELECT + WHERE <span class="ref-cat">DML</span></div>
+        <div class="ref-item" onclick="loadSnippet('analytics')">📊 Window Functions <span class="ref-cat">Analytics</span></div>
+        <div class="ref-item" onclick="loadSnippet('qualify')">🎯 QUALIFY Filter <span class="ref-cat">TD Ext</span></div>
+        <div class="ref-item" onclick="loadSnippet('cte')">🔗 CTE / WITH clause <span class="ref-cat">Advanced</span></div>
+        <div class="ref-item" onclick="loadSnippet('scd2')">🕒 SCD Type 2 Logic <span class="ref-cat">EDW</span></div>
+        <div class="ref-item" onclick="loadSnippet('merge')">🔄 MERGE Upsert <span class="ref-cat">DML</span></div>
+        <div class="ref-item" onclick="loadSnippet('explain')">🔬 EXPLAIN Plan <span class="ref-cat">Perf</span></div>
+        <div class="ref-item" onclick="loadSnippet('collect_stats')">📈 COLLECT STATS <span class="ref-cat">Perf</span></div>
+        <div class="ref-item" onclick="loadSnippet('pi_design')">🗝️ PI Design Check <span class="ref-cat">Arch</span></div>
+        <div class="ref-item" onclick="loadSnippet('skew_check')">⚠️ Skew Detection <span class="ref-cat">Perf</span></div>
+        <div class="ref-item" onclick="loadSnippet('volatile')">📦 Volatile Table <span class="ref-cat">TD Ext</span></div>
+        <div class="ref-item" onclick="loadSnippet('date_arith')">📅 Date Arithmetic <span class="ref-cat">TD Ext</span></div>
+        <div class="ref-item" onclick="loadSnippet('bteq')">💻 BTEQ Full Script <span class="ref-cat">BTEQ</span></div>
+        <div class="ref-item" onclick="loadSnippet('fastload')">⚡ FastLoad Script <span class="ref-cat">Util</span></div>
+      </div>
+    </div>
+
+  </div><!-- end qp-workspace -->
+</div>
+
+  </main>
+</div><!-- end #app -->
+
+<script>
+// ─── PANEL SWITCHING ────────────────────────────────────
+function switchPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.topbar-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+
+  // activate matching topbar tab
+  document.querySelectorAll('.topbar-tab').forEach(t => {
+    if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + name + "'")) {
+      t.classList.add('active');
+    }
+  });
+
+  // activate matching nav link
+  document.querySelectorAll('.nav-link').forEach(l => {
+    if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + name + "'")) {
+      l.classList.add('active');
+    }
+  });
+
+  // sync bottom nav highlight
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  const bnav = document.getElementById('bnav-' + name);
+  if (bnav) bnav.classList.add('active');
+
+  // scroll to top
+  const main = document.getElementById('main');
+  if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SUBTAB SWITCHING ────────────────────────────────────
+// Map short prefix → actual panel element ID
+const PANEL_ID_MAP = {
+  'basics': 'basics',
+  'sql':    'sql',
+  'arch':   'architecture',
+  'perf':   'performance',
+  'tools':  'tools',
+  'adv':    'advanced'
+};
+
+function switchSub(panelId, subId) {
+  const realPanelId = PANEL_ID_MAP[panelId] || panelId;
+  const panel = document.getElementById('panel-' + realPanelId);
+  if (!panel) return;
+
+  panel.querySelectorAll('.subcontent').forEach(s => s.classList.remove('active'));
+  panel.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
+
+  // Try both naming conventions: "panelId-subId" and "subId" alone
+  const sub = document.getElementById(panelId + '-' + subId) ||
+              document.getElementById(realPanelId + '-' + subId) ||
+              document.getElementById(subId);
+  if (sub) sub.classList.add('active');
+
+  // Activate the matching subtab button
+  panel.querySelectorAll('.subtab').forEach(t => {
+    const oc = t.getAttribute('onclick') || '';
+    if (oc.includes("'" + subId + "'")) t.classList.add('active');
+  });
+
+  // Scroll panel to top
+  const main = document.getElementById('main');
+  if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SIDEBAR SEARCH ──────────────────────────────────────
+function filterNav(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const search = (link.getAttribute('data-search') || '') + link.textContent;
+    link.style.display = !q || search.toLowerCase().includes(q) ? '' : 'none';
+  });
+
+  document.querySelectorAll('.sidebar-group-title').forEach(title => {
+    const group = title.parentElement;
+    const visibleLinks = group.querySelectorAll('.nav-link:not([style*="none"])');
+    title.style.display = visibleLinks.length === 0 ? 'none' : '';
+  });
+}
+
+// ─── QUERY LAB ────────────────────────────────────────────
+let currentMode = 'sql';
+
+function setMode(mode) {
+  currentMode = mode;
+  document.getElementById('mode-sql').classList.toggle('active', mode === 'sql');
+  document.getElementById('mode-bteq').classList.toggle('active', mode === 'bteq');
+  const label = mode === 'bteq' ? 'MODE: BTEQ Script' : 'MODE: Teradata SQL';
+  document.getElementById('editor-mode-label').textContent = label;
+}
+
+function copyQuery() {
+  const val = document.getElementById('query-editor').value;
+  if (!val.trim()) return;
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.querySelector('.btn-copy');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = orig, 1500);
+  }).catch(() => {
+    // fallback
+    document.getElementById('query-editor').select();
+    document.execCommand('copy');
+  });
+}
+
+function updateEditorStats() {
+  const ed = document.getElementById('query-editor');
+  const lines = ed.value.split('\n').length;
+  const chars = ed.value.length;
+  document.getElementById('line-count').textContent = `Lines: ${lines} | Chars: ${chars}`;
+}
+
+function clearEditor() {
+  document.getElementById('query-editor').value = '';
+  document.getElementById('query-output').innerHTML =
+    '<div class="output-line out-info">-- Editor cleared. Ready for new query.</div>';
+  document.getElementById('result-status').className = 'result-status status-idle';
+  document.getElementById('result-status').textContent = 'IDLE';
+  document.getElementById('exec-time').textContent = '';
+  updateEditorStats();
+}
+
+// ─── SNIPPETS ──────────────────────────────────────────────
+const SNIPPETS = {
+  select_basic: `-- Basic SELECT with Teradata-specific syntax
+SELECT
+    f.SALE_ID,
+    f.CUST_ID,
+    f.SALE_DATE,
+    f.AMOUNT,
+    f.REGION_CD,
+    DATE AS TODAY_DATE,                    -- Teradata DATE keyword
+    DATE - f.SALE_DATE AS DAYS_AGO
+FROM EDW_PROD.SALES_FACT f
+WHERE f.SALE_DATE BETWEEN DATE - 30 AND DATE
+  AND f.REGION_CD IN ('MUM', 'BLR', 'DEL')
+  AND f.AMOUNT > 1000
+ORDER BY f.AMOUNT DESC;`,
+
+  analytics: `-- Analytics (Window) Functions in Teradata
+SELECT
+    CUST_ID,
+    SALE_DATE,
+    AMOUNT,
+    -- Rank within each region
+    RANK() OVER (PARTITION BY REGION_CD
+                 ORDER BY AMOUNT DESC)          AS AMT_RANK,
+
+    -- Running total per customer
+    SUM(AMOUNT) OVER (PARTITION BY CUST_ID
+                      ORDER BY SALE_DATE
+                      ROWS BETWEEN UNBOUNDED PRECEDING
+                               AND CURRENT ROW) AS RUNNING_TOTAL,
+
+    -- Previous row's amount
+    LAG(AMOUNT, 1, 0) OVER (PARTITION BY CUST_ID
+                             ORDER BY SALE_DATE) AS PREV_AMOUNT,
+
+    -- Percent of total
+    AMOUNT / SUM(AMOUNT) OVER () * 100          AS PCT_OF_TOTAL
+FROM EDW_PROD.SALES_FACT
+WHERE SALE_DATE >= DATE - 90;`,
+
+  qualify: `-- QUALIFY: Teradata-specific filter on window functions
+-- Get LATEST record per customer (SCD-2 / dedup pattern)
+
+SELECT
+    CUST_ID,
+    SALE_DATE,
+    AMOUNT,
+    REGION_CD
+FROM EDW_PROD.SALES_FACT
+QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY CUST_ID
+    ORDER BY SALE_DATE DESC
+) = 1;
+
+-- Get TOP 3 sales per region
+SELECT
+    REGION_CD,
+    CUST_ID,
+    AMOUNT
+FROM EDW_PROD.SALES_FACT
+QUALIFY RANK() OVER (
+    PARTITION BY REGION_CD
+    ORDER BY AMOUNT DESC
+) <= 3
+ORDER BY REGION_CD, AMOUNT DESC;`,
+
+  cte: `-- CTE (WITH clause) — Teradata supports standard CTEs
+WITH
+monthly_sales AS (
+    SELECT
+        EXTRACT(YEAR  FROM SALE_DATE) AS SALE_YEAR,
+        EXTRACT(MONTH FROM SALE_DATE) AS SALE_MONTH,
+        REGION_CD,
+        SUM(AMOUNT)   AS MONTHLY_AMT,
+        COUNT(*)      AS TXN_COUNT
+    FROM EDW_PROD.SALES_FACT
+    GROUP BY 1,2,3
+),
+
+ranked_regions AS (
+    SELECT
+        SALE_YEAR,
+        SALE_MONTH,
+        REGION_CD,
+        MONTHLY_AMT,
+        RANK() OVER (
+            PARTITION BY SALE_YEAR, SALE_MONTH
+            ORDER BY MONTHLY_AMT DESC
+        ) AS REGION_RANK
+    FROM monthly_sales
+)
+
+SELECT *
+FROM ranked_regions
+WHERE REGION_RANK <= 3
+ORDER BY SALE_YEAR, SALE_MONTH, REGION_RANK;`,
+
+  scd2: `-- SCD Type 2 Implementation in Teradata
+-- Step 1: Expire old records where values changed
+UPDATE tgt
+FROM EDW_PROD.CUST_DIM    tgt,
+     EDW_STG.CUST_DELTA   src
+SET
+    tgt.EFF_TO_DT  = DATE - 1,
+    tgt.IS_CURRENT = 'N'
+WHERE
+    tgt.CUST_ID    = src.CUST_ID
+    AND tgt.IS_CURRENT = 'Y'
+    AND (   tgt.CITY    <> src.CITY
+         OR tgt.SEGMENT <> src.SEGMENT
+         OR tgt.EMAIL   <> src.EMAIL
+        );
+
+-- Step 2: Insert new versions for changed + new records
+INSERT INTO EDW_PROD.CUST_DIM
+    (CUST_SK, CUST_ID, CUST_NAME,
+     CITY, SEGMENT, EMAIL,
+     EFF_FROM_DT, EFF_TO_DT, IS_CURRENT)
+SELECT
+    CUST_SK_SEQ.NEXTVAL,        -- surrogate key sequence
+    src.CUST_ID,
+    src.CUST_NAME,
+    src.CITY,
+    src.SEGMENT,
+    src.EMAIL,
+    DATE,                        -- effective from today
+    NULL,                        -- current record, no end date
+    'Y'
+FROM EDW_STG.CUST_DELTA src
+WHERE NOT EXISTS (
+    SELECT 1 FROM EDW_PROD.CUST_DIM tgt
+    WHERE tgt.CUST_ID = src.CUST_ID
+      AND tgt.IS_CURRENT = 'Y'
+);`,
+
+  merge: `-- MERGE (Upsert) — update if exists, insert if not
+MERGE INTO EDW_PROD.CUST_DIM tgt
+USING EDW_STG.CUST_STG src
+ON (tgt.CUST_ID = src.CUST_ID)
+
+WHEN MATCHED THEN
+    UPDATE SET
+        tgt.CUST_NAME  = src.CUST_NAME,
+        tgt.CITY       = src.CITY,
+        tgt.EMAIL      = src.EMAIL,
+        tgt.SEGMENT    = src.SEGMENT,
+        tgt.UPD_DT     = DATE
+
+WHEN NOT MATCHED THEN
+    INSERT (CUST_ID, CUST_NAME, CITY, EMAIL, SEGMENT, INS_DT)
+    VALUES (src.CUST_ID, src.CUST_NAME, src.CITY,
+            src.EMAIL, src.SEGMENT, DATE);`,
+
+  explain: `-- EXPLAIN Plan: Add EXPLAIN before any SELECT to see plan
+EXPLAIN
+SELECT
+    c.CUST_NAME,
+    SUM(f.AMOUNT)   AS TOTAL_SALES,
+    COUNT(*)        AS TXN_COUNT,
+    AVG(f.AMOUNT)   AS AVG_SALE
+FROM EDW_PROD.SALES_FACT f
+INNER JOIN EDW_PROD.CUST_DIM c
+    ON f.CUST_ID = c.CUST_ID
+WHERE f.SALE_DATE BETWEEN DATE - 90 AND DATE
+  AND f.REGION_CD = 'BLR'
+GROUP BY c.CUST_NAME
+HAVING TOTAL_SALES > 50000
+ORDER BY TOTAL_SALES DESC;
+
+-- Look for in the output:
+-- ✅ "1-AMP RETRIEVE" = PI hit (fastest)
+-- ✅ "partition elimination" = PPI working
+-- ⚠️ "redistributing rows" = BYNET movement
+-- ❌ "Product Join" = cartesian product bug!
+-- ❌ "confidence: low" = run COLLECT STATS!`,
+
+  bteq: `/* =============================================
+   BTEQ Script: Daily Sales ETL
+   Mode: BTEQ (not plain SQL)
+   ============================================= */
+
+.LOGON tdprod01/etl_user,${TD_PASSWORD};
+.IF ERRORCODE <> 0 THEN .GOTO LOGON_FAIL;
+.REMARK 'Logged in successfully';
+
+/* Step 1: Delete today's data (reload pattern) */
+.REMARK 'Step 1: Deleting existing data for today';
+DELETE FROM EDW_STG.SALES_STG
+WHERE LOAD_DT = DATE;
+.IF ERRORCODE <> 0 THEN .GOTO STEP_FAIL;
+
+/* Step 2: Load from flat file */
+.REMARK 'Step 2: Loading from source file';
+.IMPORT VARTEXT '|' FILE=/data/incoming/sales_today.txt
+SKIP 1
+USING (
+    SALE_ID    INTEGER,
+    CUST_ID    INTEGER,
+    SALE_DATE  CHAR(10),
+    AMOUNT     DECIMAL(12,2),
+    REGION_CD  CHAR(3)
+)
+INSERT INTO EDW_STG.SALES_STG VALUES
+(:SALE_ID,:CUST_ID,:SALE_DATE,:AMOUNT,:REGION_CD);
+.IF ERRORCODE <> 0 THEN .GOTO STEP_FAIL;
+
+/* Step 3: Insert to fact */
+.REMARK 'Step 3: Inserting to SALES_FACT';
+INSERT INTO EDW_PROD.SALES_FACT
+SELECT SALE_ID, CUST_ID, PROD_ID,
+       CAST(SALE_DATE AS DATE FORMAT 'YYYY-MM-DD'),
+       AMOUNT, REGION_CD, DATE
+FROM EDW_STG.SALES_STG
+WHERE LOAD_DT = DATE;
+.IF ERRORCODE <> 0 THEN .GOTO STEP_FAIL;
+
+/* Success path */
+.REMARK 'ETL completed successfully!';
+.LOGOFF;
+.QUIT 0;
+
+/* Error handlers */
+.LABEL STEP_FAIL;
+.REMARK 'Step failed! RC=' || CAST(ERRORCODE AS VARCHAR(10));
+.LOGOFF;
+.QUIT 8;
+
+.LABEL LOGON_FAIL;
+.REMARK 'Logon failed!';
+.QUIT 12;`,
+
+  collect_stats: `-- COLLECT STATISTICS — Essential for optimizer
+
+-- 1. Collect stats on PI column (always do this first)
+COLLECT STATISTICS
+    COLUMN (CUST_ID)           -- PI column
+ON EDW_PROD.SALES_FACT;
+
+-- 2. Collect stats on frequently filtered columns
+COLLECT STATISTICS
+    COLUMN (SALE_DATE),
+    COLUMN (REGION_CD),
+    COLUMN (CUST_ID, SALE_DATE)   -- multi-column (join + filter)
+ON EDW_PROD.SALES_FACT;
+
+-- 3. Collect stats on dimension table PI
+COLLECT STATISTICS ON EDW_PROD.CUST_DIM;
+
+-- 4. View current statistics
+HELP STATISTICS EDW_PROD.SALES_FACT;
+
+-- 5. When stats were last collected
+SELECT TABLENAME, COLUMNNAMES, LASTALTERTIME
+FROM DBC.STATSV
+WHERE DATABASENAME = 'EDW_PROD'
+  AND TABLENAME    = 'SALES_FACT'
+ORDER BY LASTALTERTIME DESC;`,
+
+  pi_design: `-- Primary Index Analysis Queries
+
+-- 1. Check current AMP-level row distribution (detect skew)
+SELECT
+    HASHAMP(HASHROW(CUST_ID)) AS AMP_NUMBER,
+    COUNT(*)                  AS ROW_COUNT
+FROM EDW_PROD.SALES_FACT
+GROUP BY 1
+ORDER BY 2 DESC;
+
+-- 2. Skew percentage via DBC.TABLESIZE
+SELECT
+    TABLENAME,
+    MAX(CURRENTPERM)  AS MAX_AMP_BYTES,
+    AVG(CURRENTPERM)  AS AVG_AMP_BYTES,
+    (MAX(CURRENTPERM) / NULLIF(AVG(CURRENTPERM),0) - 1) * 100
+                      AS SKEW_FACTOR_PCT
+FROM DBC.TABLESIZE
+WHERE DATABASENAME = 'EDW_PROD'
+GROUP BY 1
+HAVING SKEW_FACTOR_PCT > 10     -- flag tables with >10% skew
+ORDER BY 4 DESC;
+
+-- 3. Cardinality check (good PI = high cardinality)
+SELECT
+    COUNT(*)              AS TOTAL_ROWS,
+    COUNT(DISTINCT CUST_ID)   AS DISTINCT_CUST,
+    COUNT(DISTINCT REGION_CD) AS DISTINCT_REGION,
+    CAST(COUNT(DISTINCT CUST_ID) AS FLOAT)
+      / COUNT(*) * 100    AS CUST_CARDINALITY_PCT
+FROM EDW_PROD.SALES_FACT;`,
+
+  fastload: `/* =============================================
+   FastLoad Script: Bulk load to staging
+   Requirement: Target table must be EMPTY
+   ============================================= */
+
+LOGON tdprod01/etl_user,passwd;
+
+/* Define error tables — created automatically */
+BEGIN LOADING EDW_STG.SALES_FL_STG
+    ERRORFILES EDW_STG.SALES_FL_ET,
+               EDW_STG.SALES_FL_UV
+    CHECKPOINT 100000;    /* restart point every 100K rows */
+
+/* Define input file record layout */
+DEFINE
+    SALE_ID   (INTEGER),
+    CUST_ID   (INTEGER),
+    SALE_DT   (CHAR(10)),
+    AMOUNT    (FLOAT),
+    REGION    (CHAR(3)),
+    LOAD_DT   (CHAR(10))
+FILE=/data/incoming/sales_bulk.dat;
+
+/* INSERT statement — one per record */
+INSERT INTO EDW_STG.SALES_FL_STG (
+    SALE_ID,
+    CUST_ID,
+    CAST(:SALE_DT AS DATE FORMAT 'YYYY-MM-DD'),
+    :AMOUNT,
+    :REGION,
+    DATE
+);
+
+END LOADING;
+LOGOFF;`,
+
+  volatile: `-- Volatile Tables — session-scoped temp tables
+
+-- Create volatile table (dropped automatically at session end)
+CREATE VOLATILE TABLE VT_MONTHLY_SUMMARY
+(
+    SALE_YEAR    INTEGER,
+    SALE_MONTH   INTEGER,
+    REGION_CD    CHAR(3),
+    TOTAL_AMT    DECIMAL(15,2),
+    TXN_COUNT    INTEGER
+) PRIMARY INDEX (REGION_CD)
+ON COMMIT PRESERVE ROWS;     -- keep data after each SQL
+
+-- Populate it
+INSERT INTO VT_MONTHLY_SUMMARY
+SELECT
+    EXTRACT(YEAR  FROM SALE_DATE),
+    EXTRACT(MONTH FROM SALE_DATE),
+    REGION_CD,
+    SUM(AMOUNT),
+    COUNT(*)
+FROM EDW_PROD.SALES_FACT
+WHERE SALE_DATE >= DATE - 365
+GROUP BY 1,2,3;
+
+-- Use in a subsequent query
+SELECT
+    v.SALE_YEAR,
+    v.SALE_MONTH,
+    v.REGION_CD,
+    v.TOTAL_AMT,
+    v.TOTAL_AMT / SUM(v.TOTAL_AMT) OVER
+        (PARTITION BY v.SALE_YEAR, v.SALE_MONTH) * 100 AS PCT_OF_MONTH
+FROM VT_MONTHLY_SUMMARY v
+ORDER BY 1,2,5 DESC;`,
+
+  date_arith: `-- Teradata Date Arithmetic — Very Commonly Tested!
+
+-- DATE keyword = today's date
+SELECT DATE AS TODAY;
+
+-- Basic arithmetic
+SELECT
+    DATE                        AS TODAY,
+    DATE - 1                    AS YESTERDAY,
+    DATE - 30                   AS THIRTY_DAYS_AGO,
+    DATE + 7                    AS NEXT_WEEK;
+
+-- Extract parts
+SELECT
+    EXTRACT(YEAR  FROM DATE)    AS CURR_YEAR,
+    EXTRACT(MONTH FROM DATE)    AS CURR_MONTH,
+    EXTRACT(DAY   FROM DATE)    AS CURR_DAY;
+
+-- First day of current month
+SELECT (DATE - (EXTRACT(DAY FROM DATE) - 1)) AS FIRST_OF_MONTH;
+
+-- Last day of previous month
+SELECT (DATE - EXTRACT(DAY FROM DATE))        AS LAST_DAY_PREV_MONTH;
+
+-- Days between two dates
+SELECT SALE_DATE,
+       DATE - SALE_DATE AS DAYS_SINCE_SALE
+FROM EDW_PROD.SALES_FACT
+WHERE SALE_DATE >= DATE - 7;
+
+-- CAST string to date
+SELECT CAST('2024-03-06' AS DATE FORMAT 'YYYY-MM-DD') AS DT;
+
+-- Format date as string
+SELECT CAST(DATE AS CHAR(10)) AS DATE_STR;`,
+
+  skew_check: `-- Skew Detection and Analysis Queries
+
+-- 1. Table-level skew analysis
+SELECT
+    TRIM(T.DATABASENAME)        AS DB_NAME,
+    TRIM(T.TABLENAME)           AS TABLE_NAME,
+    SUM(T.CURRENTPERM) / 1e9   AS TOTAL_GB,
+    MAX(T.CURRENTPERM)          AS MAX_AMP_BYTES,
+    AVG(T.CURRENTPERM)          AS AVG_AMP_BYTES,
+    (MAX(T.CURRENTPERM) /
+     NULLIF(AVG(T.CURRENTPERM),0) - 1) * 100  AS SKEW_PCT
+FROM DBC.TABLESIZE T
+WHERE T.DATABASENAME = 'EDW_PROD'
+GROUP BY 1,2
+HAVING SKEW_PCT > 5
+ORDER BY SKEW_PCT DESC;
+
+-- 2. Identify low-cardinality columns (bad PI candidates)
+SELECT
+    'CUST_ID'   AS COL_NAME,
+    COUNT(DISTINCT CUST_ID)   AS DISTINCT_VALUES,
+    COUNT(*)                  AS TOTAL_ROWS,
+    CAST(COUNT(DISTINCT CUST_ID) AS FLOAT)/COUNT(*) * 100 AS CARDINALITY_PCT
+FROM EDW_PROD.SALES_FACT
+UNION ALL
+SELECT 'REGION_CD', COUNT(DISTINCT REGION_CD), COUNT(*),
+    CAST(COUNT(DISTINCT REGION_CD) AS FLOAT)/COUNT(*) * 100
+FROM EDW_PROD.SALES_FACT;
+
+-- 3. Per-AMP row distribution
+SELECT
+    HASHAMP(HASHROW(CUST_ID)) AS AMP,
+    COUNT(*)                  AS ROW_CNT
+FROM EDW_PROD.SALES_FACT
+GROUP BY 1
+ORDER BY 2 DESC;`
+};
+
+function loadSnippet(name) {
+  const snip = SNIPPETS[name];
+  if (!snip) return;
+  document.getElementById('query-editor').value = snip;
+  updateEditorStats();
+
+  // auto set mode for BTEQ snippets
+  if (name === 'bteq' || name === 'fastload') {
+    setMode('bteq');
+  } else {
+    setMode('sql');
+  }
+}
+
+// ─── SIMULATED QUERY EXECUTION ───────────────────────────
+function runQuery() {
+  const query = document.getElementById('query-editor').value.trim();
+  if (!query) {
+    setOutput('<div class="output-line out-warn">⚠️ No query to execute.</div>', 'error');
+    return;
+  }
+
+  const statusEl = document.getElementById('result-status');
+  statusEl.className = 'result-status status-run';
+  statusEl.textContent = 'RUNNING';
+
+  const start = Date.now();
+
+  setTimeout(() => {
+    const elapsed = (Date.now() - start) + Math.floor(Math.random()*800 + 200);
+    const timeStr = `${elapsed}ms`;
+    document.getElementById('exec-time').textContent = timeStr;
+    const inl = document.getElementById('exec-time-inline');
+    if (inl) inl.textContent = timeStr;
+
+    const output = simulateQuery(query);
+    setOutput(output.html, output.status);
+
+    statusEl.className = 'result-status ' + (output.status === 'ok' ? 'status-ok' : 'status-error');
+    statusEl.textContent = output.status === 'ok' ? 'SUCCESS' : 'ERROR';
+  }, 380);
+}
+
+function setOutput(html, status) {
+  document.getElementById('query-output').innerHTML = html;
+}
+
+function simulateQuery(q) {
+  const ql = q.toLowerCase().replace(/\s+/g,' ');
+
+  // BTEQ mode
+  if (currentMode === 'bteq') return simulateBteq(q);
+
+  // EXPLAIN
+  if (ql.startsWith('explain')) {
+    return { html: buildExplainOutput(), status: 'ok' };
+  }
+
+  // COLLECT STATS
+  if (ql.includes('collect stat')) {
+    const tbl = q.match(/on\s+([\w.]+)/i)?.[1] || 'TABLE';
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ Statistics collection started...</div>
+      <div class="output-line out-info">   Table: ${tbl}</div>
+      <div class="output-line out-ok">✅ Statistics collected successfully.</div>
+      <div class="output-line" style="color:var(--text3)">   Affected rows: all columns</div>
+      <div class="output-line out-info">   Optimizer will use updated statistics.</div>` };
+  }
+
+  // DDL
+  if (ql.startsWith('create') || ql.startsWith('alter') || ql.startsWith('drop') || ql.startsWith('rename')) {
+    const op = ql.split(' ').slice(0,3).join(' ').toUpperCase();
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ DDL statement executed successfully.</div>
+      <div class="output-line out-info">   Operation: ${op}</div>
+      <div class="output-line" style="color:var(--text3)">   Object created/modified in dictionary.</div>` };
+  }
+
+  // DELETE
+  if (ql.startsWith('delete')) {
+    const rows = Math.floor(Math.random()*5000 + 100);
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ DELETE executed.</div>
+      <div class="output-line out-info">   Rows deleted: ${rows.toLocaleString()}</div>
+      <div class="output-line" style="color:var(--text3)">   Activity count: ${rows.toLocaleString()}</div>` };
+  }
+
+  // UPDATE / MERGE
+  if (ql.startsWith('update') || ql.startsWith('merge')) {
+    const rows = Math.floor(Math.random()*2000 + 50);
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ ${ql.startsWith('merge') ? 'MERGE' : 'UPDATE'} executed.</div>
+      <div class="output-line out-info">   Rows affected: ${rows.toLocaleString()}</div>
+      <div class="output-line" style="color:var(--text3)">   Activity count: ${rows.toLocaleString()}</div>` };
+  }
+
+  // INSERT
+  if (ql.startsWith('insert')) {
+    const rows = Math.floor(Math.random()*10000 + 1000);
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ INSERT executed.</div>
+      <div class="output-line out-info">   Rows inserted: ${rows.toLocaleString()}</div>
+      <div class="output-line" style="color:var(--text3)">   Activity count: ${rows.toLocaleString()}</div>` };
+  }
+
+  // HELP STATS
+  if (ql.startsWith('help stat')) {
+    return { status:'ok', html: buildHelpStatsOutput() };
+  }
+
+  // SELECT
+  if (ql.startsWith('select') || ql.startsWith('sel') || ql.startsWith('with')) {
+    return { status:'ok', html: buildSelectOutput(q) };
+  }
+
+  // CALL
+  if (ql.startsWith('call')) {
+    return { status:'ok', html: `
+      <div class="output-line out-ok">✅ Stored Procedure executed.</div>
+      <div class="output-line out-info">   Procedure called successfully.</div>
+      <div class="output-line" style="color:var(--text3)">   OUT parameters returned.</div>` };
+  }
+
+  // Unknown
+  return { status:'error', html: `
+    <div class="output-line out-err">❌ Unrecognized statement type.</div>
+    <div class="output-line" style="color:var(--text3)">   Start with SELECT, INSERT, UPDATE, DELETE, CREATE, EXPLAIN, etc.</div>` };
+}
+
+function simulateBteq(script) {
+  const lines = script.split('\n');
+  let html = '';
+  html += `<div class="output-line out-info">-- BTEQ Session Started</div>`;
+  let step = 0;
+  for (const line of lines) {
+    const l = line.trim();
+    if (!l || l.startsWith('/*') || l.startsWith('--') || l.startsWith('*')) continue;
+    if (l.toUpperCase().startsWith('.LOGON')) {
+      html += `<div class="output-line out-ok"> *** Logon successfully completed.</div>`;
+    } else if (l.toUpperCase().startsWith('.REMARK')) {
+      const msg = l.replace(/^\.REMARK\s+/i,'').replace(/[';]/g,'');
+      html += `<div class="output-line out-info"> *** ${msg}</div>`;
+    } else if (l.toUpperCase().startsWith('.LOGOFF')) {
+      html += `<div class="output-line out-info"> *** Logoff performed.</div>`;
+    } else if (l.toUpperCase().startsWith('.QUIT')) {
+      const rc = l.match(/\d+/)?.[0] || '0';
+      const cls = rc === '0' ? 'out-ok' : 'out-err';
+      html += `<div class="output-line ${cls}"> *** BTEQ exiting. Return code: ${rc}.</div>`;
+    } else if (l.toUpperCase().startsWith('.IF')) {
+      html += `<div class="output-line" style="color:var(--text3)"> *** Conditional evaluated: ERRORCODE=0 (success path)</div>`;
+    } else if (l.toUpperCase().startsWith('.IMPORT')) {
+      html += `<div class="output-line out-ok"> *** Import completed. Rows loaded: ${(Math.floor(Math.random()*50000+5000)).toLocaleString()}</div>`;
+    } else if (l.toUpperCase().match(/^(SELECT|SEL|INSERT|UPDATE|DELETE|MERGE)/)) {
+      step++;
+      const rows = Math.floor(Math.random()*10000+100);
+      html += `<div class="output-line out-ok"> *** Statement ${step} completed. Activity count = ${rows.toLocaleString()}</div>`;
+    }
+  }
+  html += `<div class="output-line out-ok">-- BTEQ Session Ended (RC=0)</div>`;
+  return { html, status: 'ok' };
+}
+
+function buildSelectOutput(q) {
+  const ql = q.toLowerCase();
+
+  // QUALIFY / ROW_NUMBER dedup result
+  if (ql.includes('qualify') && ql.includes('row_number')) {
+    return { status:'ok', html: buildTable(
+      ['CUST_ID','SALE_DATE','AMOUNT','REGION_CD'],
+      [[1001,'2024-03-05','4250.00','BLR'],[1002,'2024-03-06','1820.50','MUM'],[1003,'2024-03-04','9100.00','DEL'],[1004,'2024-03-06','750.25','HYD'],[1005,'2024-03-05','3300.00','BLR']],
+      'QUALIFY dedup — 1 row per CUST_ID (latest)'
+    )};
+  }
+
+  // ANALYTICS with window functions
+  if (ql.includes('over') || ql.includes('rank') || ql.includes('lag')) {
+    return { status:'ok', html: buildTable(
+      ['CUST_ID','SALE_DATE','AMOUNT','RUNNING_TOTAL','AMT_RANK'],
+      [[1001,'2024-03-01','1200.00','1200.00',3],[1001,'2024-03-02','3500.00','4700.00',1],[1002,'2024-03-01','2800.00','2800.00',2],[1002,'2024-03-03','950.00','3750.00',5],[1003,'2024-03-02','4100.00','4100.00',1]],
+      'Window function results — 5 rows shown'
+    )};
+  }
+
+  // CTE
+  if (ql.startsWith('with')) {
+    return { status:'ok', html: buildTable(
+      ['SALE_YEAR','SALE_MONTH','REGION_CD','MONTHLY_AMT','REGION_RANK'],
+      [[2024,3,'BLR','4850000.00',1],[2024,3,'MUM','4120000.00',2],[2024,3,'DEL','3980000.00',3],[2024,2,'MUM','5100000.00',1],[2024,2,'BLR','4750000.00',2]],
+      'CTE results — Top 3 regions per month'
+    )};
+  }
+
+  // EXPLAIN
+  if (ql.startsWith('explain')) {
+    return { status:'ok', html: buildExplainOutput() };
+  }
+
+  // Date arithmetic
+  if (ql.includes('extract') || ql.includes('cast(') || (ql.includes('date') && !ql.includes('sale_date'))) {
+    return { status:'ok', html: buildTable(
+      ['TODAY','YESTERDAY','CURR_YEAR','CURR_MONTH','FIRST_OF_MONTH'],
+      [['2024-03-06','2024-03-05',2024,3,'2024-03-01']],
+      'Date arithmetic result'
+    )};
+  }
+
+  // Skew query
+  if (ql.includes('hashamp') || ql.includes('skew')) {
+    return { status:'ok', html: buildTable(
+      ['AMP_NUMBER','ROW_COUNT'],
+      [[47,125430],[23,124891],[108,124203],[201,123988],[55,122744]],
+      'AMP distribution (5 of 512 shown) — evenly distributed ✅'
+    )};
+  }
+
+  // Stats query
+  if (ql.includes('dbc.')) {
+    return { status:'ok', html: buildTable(
+      ['TABLENAME','TOTAL_GB','MAX_AMP_BYTES','SKEW_PCT'],
+      [['SALES_FACT','450.2','892311240','3.2%'],['CUST_DIM','12.8','25001232','0.8%'],['ORDERS_FACT','320.5','720881100','8.7%']],
+      'DBC system tables — 3 rows'
+    )};
+  }
+
+  // Default sales result
+  const rows = [];
+  const regions = ['BLR','MUM','DEL','HYD','CHN'];
+  for (let i = 0; i < 8; i++) {
+    rows.push([
+      10000 + Math.floor(Math.random()*9000),
+      10000 + Math.floor(Math.random()*90000),
+      `2024-03-0${Math.floor(Math.random()*6+1)}`,
+      (Math.random()*9000+500).toFixed(2),
+      regions[Math.floor(Math.random()*5)]
+    ]);
+  }
+  return { status:'ok', html: buildTable(
+    ['SALE_ID','CUST_ID','SALE_DATE','AMOUNT','REGION_CD'],
+    rows,
+    `SELECT results — ${rows.length} rows returned`
+  )};
+}
+
+function buildTable(cols, rows, title) {
+  let h = `<div class="output-line out-info">✅ ${title}</div>`;
+  h += '<div style="overflow-x:auto;margin-top:8px"><table class="output-table"><thead><tr>';
+  cols.forEach(c => h += `<th>${c}</th>`);
+  h += '</tr></thead><tbody>';
+  rows.forEach(row => {
+    h += '<tr>';
+    row.forEach(cell => h += `<td>${cell}</td>`);
+    h += '</tr>';
+  });
+  h += `</tbody></table></div>`;
+  h += `<div class="output-line" style="color:var(--text3);margin-top:6px">-- ${rows.length} row(s) returned</div>`;
+  return h;
+}
+
+function buildExplainOutput() {
+  return `
+    <div class="output-line out-info">-- EXPLAIN PLAN</div>
+    <div class="output-line" style="color:var(--text3);">1) First, we lock EDW_PROD.SALES_FACT for read on a reserved RowHash.</div>
+    <div class="output-line out-ok">2) We do an all-AMPs RETRIEVE step from EDW_PROD.SALES_FACT</div>
+    <div class="output-line" style="color:var(--text3);">   by way of an all-rows scan with a residual condition of</div>
+    <div class="output-line" style="color:var(--text3);">   ("SALES_FACT.SALE_DATE >= DATE - 90").</div>
+    <div class="output-line out-ok">   ✅ Partition Elimination applied (PPI on SALE_DATE).</div>
+    <div class="output-line" style="color:var(--text3);">   Estimated rows: 4,821,000. Confidence: <span style="color:var(--green)">high</span>.</div>
+    <div class="output-line" style="color:var(--text3);">   The result goes into Spool 1.</div>
+    <div class="output-line out-ok">3) We do an all-AMPs JOIN step from Spool 1 by way of</div>
+    <div class="output-line" style="color:var(--text3);">   a RowHash match scan, which is joined to</div>
+    <div class="output-line out-ok">   EDW_PROD.CUST_DIM by way of a RowHash join.</div>
+    <div class="output-line out-ok">   ✅ Row Hash Match Scan (no redistribution!) — same PI on both tables.</div>
+    <div class="output-line" style="color:var(--text3);">   Estimated rows: 4,821,000.</div>
+    <div class="output-line" style="color:var(--text3);">4) We do an all-AMPs SUM step aggregating by field groups.</div>
+    <div class="output-line" style="color:var(--text3);">   Estimated rows: 182,000 groups.</div>
+    <div class="output-line out-ok">5) HAVING filter applied. ORDER BY on final result.</div>
+    <div class="output-line out-ok" style="margin-top:6px;">-- Summary:</div>
+    <div class="output-line out-ok">   ✅ Partition elimination: YES (only 3 of 48 partitions scanned)</div>
+    <div class="output-line out-ok">   ✅ Join strategy: Row Hash Match (no BYNET traffic)</div>
+    <div class="output-line out-ok">   ✅ Confidence: HIGH (statistics current)</div>
+    <div class="output-line" style="color:var(--text3);">   Estimated execution steps: 5</div>`;
+}
+
+function buildHelpStatsOutput() {
+  return buildTable(
+    ['TABLENAME','COLUMNNAMES','SAMPLEPCT','LASTALTERTIME'],
+    [
+      ['SALES_FACT','CUST_ID','100','2024-03-01 02:15:00'],
+      ['SALES_FACT','SALE_DATE','100','2024-03-01 02:15:00'],
+      ['SALES_FACT','REGION_CD','100','2024-03-01 02:15:00'],
+      ['SALES_FACT','CUST_ID, SALE_DATE','100','2024-03-01 02:15:00'],
+    ],
+    'Statistics on SALES_FACT'
+  );
+}
+
+// ─── KEYBOARD SHORTCUT ───────────────────────────────────
+document.getElementById('query-editor').addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.key === 'Enter') {
+    e.preventDefault();
+    runQuery();
+  }
+  // Tab indentation
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const start = this.selectionStart;
+    const end = this.selectionEnd;
+    this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+    this.selectionStart = this.selectionEnd = start + 4;
+    updateEditorStats();
+  }
+});
+
+// ─── THEME TOGGLE ────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.documentElement.classList.toggle('light');
+  const btn = document.getElementById('theme-toggle');
+  btn.textContent = isLight ? '☀️' : '🌙';
+  btn.title = isLight ? 'Switch to Dark mode' : 'Switch to Light mode';
+  localStorage.setItem('td-theme', isLight ? 'light' : 'dark');
+}
+
+// Restore saved theme on load
+(function() {
+  const saved = localStorage.getItem('td-theme');
+  if (saved === 'light') {
+    document.documentElement.classList.add('light');
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('theme-toggle');
+      if (btn) { btn.textContent = '☀️'; btn.title = 'Switch to Dark mode'; }
+    });
+  }
+})();
+
+// ─── MOBILE RESPONSIVE ───────────────────────────────────
+function isMobile() { return window.innerWidth <= 700; }
+
+function initMobile() {
+  const hamburger = document.getElementById('hamburger');
+  const bottomNav = document.getElementById('bottom-nav');
+  const mobile    = isMobile();
+  if (hamburger) hamburger.style.display = mobile ? 'flex' : 'none';
+  if (bottomNav) bottomNav.style.display = mobile ? 'flex' : 'none';
+  const main = document.getElementById('main');
+  if (main) {
+    main.style.height = mobile
+      ? 'calc(100vh - 52px - 52px)'
+      : 'calc(100vh - 56px)';
+  }
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const ham     = document.getElementById('hamburger');
+  const isOpen  = sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', !isOpen);
+  if (overlay) overlay.classList.toggle('show', !isOpen);
+  if (ham) ham.textContent = isOpen ? '☰' : '✕';
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const ham     = document.getElementById('hamburger');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('show');
+  if (ham) ham.textContent = '☰';
+}
+
+function mobileNav(panel) {
+  document.querySelectorAll('.bnav-item').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('bnav-' + panel);
+  if (btn) btn.classList.add('active');
+  switchPanel(panel);
+  closeSidebar();
+}
+
+// Close sidebar on nav-link click on mobile
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => { if (isMobile()) closeSidebar(); });
+});
+
+window.addEventListener('resize', initMobile);
+initMobile();
+
+// Initial stats
+updateEditorStats();
+</script>
+</body>
+</html>
