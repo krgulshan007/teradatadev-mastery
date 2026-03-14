@@ -3192,6 +3192,7 @@ SELECT TOP 10 * FROM EDW_PROD.SALES_FACT;"
   </main>
 </div><!-- end #app -->
 
+<script src="https://cdn.jsdelivr.net/npm/alasql@4.6.5/dist/alasql.min.js"></script>
 <script>
 // ─── PANEL SWITCHING ────────────────────────────────────
 function switchPanel(name) {
@@ -3771,6 +3772,99 @@ function loadSnippet(name) {
   }
 }
 
+// ─── IN-BROWSER SQL ENGINE (AlaSQL) ─────────────────────
+let sqlEngineReady = false;
+
+function initializeSqlEngine() {
+  if (sqlEngineReady || typeof alasql === 'undefined') return;
+
+  alasql('CREATE TABLE sales_fact (SALE_ID INT, CUST_ID INT, SALE_DATE DATE, AMOUNT DECIMAL, REGION_CD STRING)');
+  alasql('CREATE TABLE cust_dim (CUST_ID INT, CUST_NAME STRING, CITY STRING)');
+
+  const salesRows = [
+    [10001, 12001, '2024-03-01', 1250.75, 'BLR'],
+    [10002, 12002, '2024-03-01', 2400.00, 'MUM'],
+    [10003, 12003, '2024-03-02', 890.50, 'DEL'],
+    [10004, 12001, '2024-03-02', 3120.20, 'BLR'],
+    [10005, 12004, '2024-03-03', 1775.00, 'HYD'],
+    [10006, 12005, '2024-03-03', 4599.90, 'CHN'],
+    [10007, 12003, '2024-03-04', 990.00, 'DEL'],
+    [10008, 12002, '2024-03-05', 2750.25, 'MUM'],
+    [10009, 12006, '2024-03-05', 850.00, 'BLR'],
+    [10010, 12004, '2024-03-06', 6100.40, 'HYD']
+  ];
+
+  const custRows = [
+    [12001, 'Arjun Rao', 'Bengaluru'],
+    [12002, 'Neha Sharma', 'Mumbai'],
+    [12003, 'Ravi Verma', 'Delhi'],
+    [12004, 'Ishita Reddy', 'Hyderabad'],
+    [12005, 'Karthik Iyer', 'Chennai'],
+    [12006, 'Priya Nair', 'Bengaluru']
+  ];
+
+  salesRows.forEach(row => alasql('INSERT INTO sales_fact VALUES (?,?,?,?,?)', row));
+  custRows.forEach(row => alasql('INSERT INTO cust_dim VALUES (?,?,?)', row));
+
+  sqlEngineReady = true;
+}
+
+
+function formatSqlValue(value) {
+  if (value === null || value === undefined) return '';
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  if (typeof value === 'object') {
+    return JSON.stringify(value);
+  }
+  return value;
+}
+
+function executeSqlInBrowser(rawQuery) {
+  initializeSqlEngine();
+  const normalized = rawQuery
+    .replace(/EDW_PROD\./gi, '')
+    .replace(/\bDBC\./gi, '')
+    .replace(/\bDATE\b(?!\s*['(])/gi, 'CURRENT_DATE')
+    .trim();
+
+  const statements = normalized
+    .split(';')
+    .map(stmt => stmt.trim())
+    .filter(Boolean);
+
+  let lastResult;
+  for (const stmt of statements) {
+    lastResult = alasql(stmt);
+  }
+
+  if (Array.isArray(lastResult)) {
+    if (lastResult.length === 0) {
+      return {
+        status: 'ok',
+        html: '<div class="output-line out-info">✅ Query executed successfully. 0 rows returned.</div>'
+      };
+    }
+
+    const cols = Object.keys(lastResult[0]);
+    const rows = lastResult.map(row => cols.map(col => formatSqlValue(row[col])));
+    return {
+      status: 'ok',
+      html: buildTable(cols, rows, `SELECT results — ${rows.length} rows returned`)
+    };
+  }
+
+  const affected = Number.isFinite(lastResult) ? lastResult : 0;
+  return {
+    status: 'ok',
+    html: `
+      <div class="output-line out-ok">✅ Statement executed successfully.</div>
+      <div class="output-line out-info">   Rows affected: ${affected.toLocaleString()}</div>
+      <div class="output-line" style="color:var(--text3)">   SQL Editor ran in real browser engine (AlaSQL).</div>`
+  };
+}
+
 // ─── SIMULATED QUERY EXECUTION ───────────────────────────
 function runQuery() {
   const query = document.getElementById('query-editor').value.trim();
@@ -3792,7 +3886,15 @@ function runQuery() {
     const inl = document.getElementById('exec-time-inline');
     if (inl) inl.textContent = timeStr;
 
-    const output = simulateQuery(query);
+    let output;
+    try {
+      output = simulateQuery(query);
+    } catch (error) {
+      output = {
+        status: "error",
+        html: `<div class="output-line out-err">❌ ${error.message}</div>`
+      };
+    }
     setOutput(output.html, output.status);
 
     statusEl.className = 'result-status ' + (output.status === 'ok' ? 'status-ok' : 'status-error');
@@ -3809,6 +3911,14 @@ function simulateQuery(q) {
 
   // BTEQ mode
   if (currentMode === 'bteq') return simulateBteq(q);
+
+  if (typeof alasql !== 'undefined' && !ql.startsWith('explain') && !ql.includes('collect stat') && !ql.startsWith('help stat')) {
+    try {
+      return executeSqlInBrowser(q);
+    } catch (err) {
+      // Fall back to deterministic educational simulator when query contains Teradata-only syntax.
+    }
+  }
 
   // EXPLAIN
   if (ql.startsWith('explain')) {
